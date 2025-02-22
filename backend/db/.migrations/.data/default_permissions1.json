@@ -1,0 +1,21 @@
+{
+    "permissions_groups": [
+        {
+            "id": "000000000000000000000001",
+            "name": "Executive User",
+            "permissions": [
+                "SUPER_ADMIN"
+            ],
+            "level": 999999
+        },
+        {
+            "id": "000000000000000000000002",
+            "name": "Default User",
+            "permissions": [
+                "CAN_ACCESS_USER",
+                "CAN_MODIFY_USER"
+            ],
+            "level": 10
+        }
+    ]
+}
