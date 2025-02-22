@@ -16,7 +16,6 @@ class Course(me.Document):
         'collection': 'courses',
         'indexes': [
             'google_classroom_id',
-            'owner_id',
             'created_at'
         ],
         'ordering': ['-created_at']

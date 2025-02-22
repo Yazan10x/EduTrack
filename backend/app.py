@@ -3,13 +3,14 @@ import os
 import confiq
 from flask import Flask, Response, redirect
 from flask_cors import CORS
-from routes import users, db_firebase_service
+from routes import users, courses, db_firebase_service
 
 app = Flask(__name__)
 CORS(app)
 
 # Services
 app.register_blueprint(users, url_prefix="/users")
+app.register_blueprint(courses, url_prefix="/courses")
 
 # Developer Services
 app.register_blueprint(db_firebase_service, url_prefix="/f")

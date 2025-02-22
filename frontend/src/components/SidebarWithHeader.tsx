@@ -72,6 +72,7 @@ interface SidebarProps extends BoxProps {
 
 const LinkItems: Array<LinkItemProps> = [
     { name: "Dashboard", icon: AiFillDashboard, path: "/" },
+    { name: "Courses", icon: AiOutlineOrderedList, path: "/courses" },
 ];
 
 const AdminLinkItems: Array<LinkItemProps> = [

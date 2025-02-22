@@ -6,7 +6,7 @@ from typing import Optional
 from flask import g, request, jsonify
 from functools import wraps
 import models
-from utils.firebase.FirebaseAPI import FirebaseAPI
+from utils.googleapis.FirebaseAPI import FirebaseAPI
 
 
 class Ctx:

@@ -1,5 +1,4 @@
 from bson import ObjectId
-from time import sleep
 from models import Permissions, User
 import json
 from mongoengine.errors import ValidationError

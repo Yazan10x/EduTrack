@@ -10,6 +10,7 @@ import theme from "./theme";
 import ProfileScreen from "./screens/User/ProfileScreen";
 import AuthScreen from "./screens/Auth/AuthScreen";
 import AdminPortal from "./screens/Admin/AdminPortal";
+import Courses from "./screens/Courses/Courses";
 
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -82,6 +83,7 @@ export const App = () => (
                     <Route path="/" element={<PrivateRoute><ProtectedLayout /></PrivateRoute>}>
                         <Route index element={<Dashboard />} />
                         <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="courses" element={<Courses/>} />
 
                         {/* Protected Admin Pages */}
                         <Route path="_admin/*" element={
