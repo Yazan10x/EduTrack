@@ -1,0 +1,80 @@
+{
+  "plans": [
+    {
+      "id": "000000000000000000000001",
+      "plan_info": {
+        "name": "Basic",
+        "permission_group": "000000000000000000000002",
+        "price": 0.0,
+        "subscription_type": "FREE",
+        "features": [
+          "Access to 5 questions",
+          "Access to Dashboard and metrics",
+          "Comprehensive AI feedback",
+          "No credit card required"
+        ]
+      },
+      "archived": false
+    },
+    {
+      "id": "000000000000000000000002",
+      "plan_info": {
+        "name": "Starter",
+        "permission_group": "000000000000000000000003",
+        "price": 14.99,
+        "subscription_type": "WEEKLY",
+        "features": [
+          "All features from the Basic plan",
+          "Access to 60 questions",
+          "Comprehensive AI feedback",
+          "Priority email support",
+          "30-day money-back guarantee"
+        ]
+      },
+      "stripe_info": {
+        "stripe_price_id": "price_1Q5xgoHO8MRD9g51wvPsskDV"
+      },
+      "archived": false
+    },
+    {
+      "id": "000000000000000000000003",
+      "plan_info": {
+        "name": "Competitive",
+        "permission_group": "000000000000000000000004",
+        "price": 19.99,
+        "subscription_type": "WEEKLY",
+        "features": [
+          "All features from the Starter plan",
+          "Unlimited access to all 200 questions",
+          "Dedicated account manager",
+          "Expedited Support"
+        ],
+        "badge_text": "Most Popular"
+      },
+      "stripe_info": {
+        "stripe_price_id": "price_1Q5xhuHO8MRD9g51HPnB5BJ9"
+      },
+      "archived": false
+    },
+    {
+      "id": "000000000000000000000004",
+      "plan_info": {
+        "name": "Competitive",
+        "permission_group": "000000000000000000000004",
+        "price": 39.99,
+        "subscription_type": "MONTHLY",
+        "features": [
+          "All features from the Starter plan",
+          "Unlimited access to all 200 questions",
+          "Dedicated account manager",
+          "Expedited Support"
+        ],
+        "badge_text": "Most Popular"
+      },
+      "stripe_info": {
+        "stripe_price_id": "price_1Q5xiRHO8MRD9g51x0ZcPlSY"
+      },
+      "archived": false
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+    "scenarios": [
+    {
+        "int_id": 1,
+        "scenario": "You are part of a group project where one member is not contributing equally, but the final grade will be shared equally among all members.",
+        "questions": [
+            "What would you do in this situation?",
+            "How would you address the imbalance of work without causing conflict within the group?",
+            "Would your decision change if the non-contributing member had a valid reason for their lack of participation, such as a personal issue?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Ethical Dilemma"
+    },
+    {
+        "int_id": 2,
+        "scenario": "A close friend asks you to lie on their behalf during a disciplinary hearing at school to prevent them from being suspended.",
+        "questions": [
+            "How would you handle this request?",
+            "Have you ever been in a situation where you had to choose between loyalty to a friend and honesty? How did you handle it?",
+            "Would your decision change if you knew that your friend’s suspension would cause significant harm to their future opportunities?"
+        ],
+        "difficulty": "HARD",
+        "category": "Ethical Dilemma"
+    },
+    {
+        "int_id": 3,
+        "scenario": "You are a teaching assistant, and one of your students asks you for help outside of class hours. The request seems to blur the line between professional and personal interaction.",
+        "questions": [
+            "How would you respond to this request?",
+            "Have you ever been in a situation where you had to maintain professional boundaries? What did you do?",
+            "Would your decision change if you knew the student was struggling with personal issues that were affecting their academic performance?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Professional Boundaries"
+    },
+    {
+        "int_id": 4,
+        "scenario": "As a new employee, your manager asks you to handle a task that falls outside your job description, involving personal errands for them.",
+        "questions": [
+            "How would you handle this request?",
+            "What steps would you take to maintain professional boundaries while addressing the task?",
+            "Would your decision change if completing the task could lead to better career opportunities for you within the company?"
+        ],
+        "difficulty": "HARD",
+        "category": "Professional Boundaries"
+    },
+    {
+        "int_id": 5,
+        "scenario": "Describe a time when you faced a significant challenge in balancing multiple responsibilities.",
+        "questions": [
+            "What was the situation, and how did you manage your responsibilities?",
+            "In hindsight, would you have approached the situation differently? If so, how?",
+            "How did this experience influence the way you handle multiple tasks or responsibilities now?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Personal"
+    },
+    {
+        "int_id": 6,
+        "scenario": "Describe a time when you had to stand up for what you believed was right, even though it was difficult.",
+        "questions": [
+            "What was the situation, and what did you do?",
+            "How did the other parties involved react to your decision?",
+            "Would you make the same decision again if you were faced with a similar situation today?"
+        ],
+        "difficulty": "HARD",
+        "category": "Personal"
+    },
+    {
+        "int_id": 7,
+        "scenario": "The university has implemented a new policy that bans the use of laptops in classrooms to encourage participation. Do you agree with this policy?",
+        "questions": [
+            "What is your opinion on the laptop ban policy?",
+            "Would your opinion change if research showed that students who do not use laptops perform better in class?",
+            "How might this policy impact students with learning disabilities who rely on technology for note-taking?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Policy"
+    },
+    {
+        "int_id": 8,
+        "scenario": "A company you work for has a policy that prohibits employees from working remotely, even if the nature of their job could easily allow it. Do you agree with this policy?",
+        "questions": [
+            "What is your opinion on the no-remote-work policy?",
+            "Would your opinion change if the company’s productivity rates are higher with in-office work?",
+            "How should the company address the needs of employees who have personal circumstances that make remote work more suitable?"
+        ],
+        "difficulty": "HARD",
+        "category": "Policy"
+    },
+    {
+        "int_id": 9,
+        "scenario": "A new policy requires that all students participate in a minimum of 40 hours of community service to graduate. Do you agree with this policy?",
+        "questions": [
+            "What is your stance on mandatory community service for graduation?",
+            "Would your opinion change if the community service hours could be completed through a variety of activities that align with students’ interests?",
+            "How might this policy affect students who already have heavy academic and extracurricular commitments?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Policy"
+    },
+    {
+        "int_id": 10,
+        "scenario": "A policy at your workplace mandates that all employees must use a time-tracking app to log their work hours. Do you think this is a fair policy?",
+        "questions": [
+            "What is your opinion on the mandatory time-tracking app policy?",
+            "Would your opinion change if the app data were used for performance reviews and promotions?",
+            "How should the company address concerns from employees who feel that time-tracking invades their privacy?"
+        ],
+        "difficulty": "MEDIUM",
+        "category": "Policy"
+    }
+]
+}
