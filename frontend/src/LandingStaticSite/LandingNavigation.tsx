@@ -263,17 +263,17 @@ const NAV_ITEMS: Array<NavItem> = [
         href: '/',
     },
     {
-        label: 'Study',
-        href: '/study',
+        label: 'Features',
+        href: '/features',
     },
     {
-        label: 'Learn',
-        href: '/learn',
+        label: 'Mission',
+        href: '/mission',
     },
-    {
-        label: 'About',
-        href: '/about',
-    },
+    // {
+    //     label: 'About',
+    //     href: '/about',
+    // },
     // {
     //     label: 'Legal',
     //     children: [

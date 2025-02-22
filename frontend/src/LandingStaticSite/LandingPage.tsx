@@ -57,15 +57,15 @@ export const LandingPage: React.FC = () => {
             <Box h="300px" position="relative" overflow="hidden">
                 {/* Wave Background */}
                 <Box
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    right="0"
-                    h="100px"
-                    bg={useColorModeValue('secondary.200', 'secondary.700')}
-                    zIndex={-1}
-                    clipPath="polygon(0 0, 100% 0, 100% 75%, 0 100%)"
-                />
+    position="absolute"
+    top="0"
+    left="0"
+    right="0"
+    h="100px"
+    bg={useColorModeValue('secondary.200', 'secondary.700')}
+    zIndex={-1}
+    clipPath="polygon(100% 0, 0 0, 0 75%, 100% 100%)"
+/>
                 <Spacer h={"15px"}/>
 
                 <Container maxW="7xl" py={{ base: 12, md: 20 }} px={8}>
@@ -78,10 +78,12 @@ export const LandingPage: React.FC = () => {
                         {/* Text Column */}
                         <Box flex="1" textAlign={{ base: 'center', md: 'left' }}>
                             <Heading size="2xl" mb={4}>
-                                Welcome to {WEB_SITE_TITLE}, Your Ultimate Learning Platform
+                                Welcome to <Heading as="span" size="2xl" mb={4} color={useColorModeValue('secondary.500', 'secondary.700')}>{WEB_SITE_TITLE}</Heading>,
+                                <br/> Your Classroom Management Simplified
                             </Heading>
                             <Text fontSize="xl" mb={6}>
-                                Discover a world of knowledge with interactive courses, expert instructors, and AI-powered insights to enhance your learning experience.
+                            Teaching is one of the most important jobs in the world, but it's also one of the hardest. 
+                            <br/>EduTrack is here to lighten your load, so you can focus on what truly matters.
                             </Text>
                         </Box>
                     </Flex>
@@ -104,32 +106,32 @@ export const LandingPage: React.FC = () => {
                         <Box {...cardStyle}>
                             <Stack direction="row" align="center" mb={4}>
                                 <Icon as={FaBook} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Extensive Course Library</Heading>
+                                <Heading size="md">Never Miss a Beat with Assignments.</Heading>
                             </Stack>
                             <Text>
-                                Access a vast collection of courses across various subjects, from science to arts and technology.
+                            EduTrack gives you a clear, organized view of what's been submitted, what's late, and what needs your attention.
                             </Text>
                         </Box>
 
                         {/* Card 2 */}
                         <Box {...cardStyle}>
                             <Stack direction="row" align="center" mb={4}>
-                                <Icon as={FaChalkboardTeacher} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Expert Instructors</Heading>
+                                <Icon as={FaUserGraduate} w={6} h={6} color="secondary.700" />
+                                <Heading size="md">Understand Your Students Better</Heading>
                             </Stack>
                             <Text>
-                                Learn from industry professionals and experienced educators who bring real-world insights into the classroom.
+                                Get personalized insights into each student's learning style and progress, helping you tailor your teaching to their needs.
                             </Text>
                         </Box>
 
                         {/* Card 3 */}
                         <Box {...cardStyle}>
                             <Stack direction="row" align="center" mb={4}>
-                                <Icon as={FaUserGraduate} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Personalized Learning</Heading>
+                                <Icon as={FaChalkboardTeacher} w={6} h={6} color="secondary.700" />
+                                <Heading size="md">Simplify Your Classroom Management</Heading>
                             </Stack>
                             <Text>
-                                Utilize AI-driven recommendations to personalize your learning path and track your progress effectively.
+                                Manage Google Classrooms, track performance, and access everything in one place, saving you time and stress.
                             </Text>
                         </Box>
                     </SimpleGrid>
@@ -148,10 +150,10 @@ export const LandingPage: React.FC = () => {
                 <Container maxW="md" textAlign="center">
                     <Stack direction="row" align="center" justify="center" mb={4}>
                         <Icon as={FaAward} w={8} h={8} color="secondary.700" />
-                        <Heading size="lg">Certifications & Career Growth</Heading>
+                        <Heading size="lg">Ready to Transform Your Classroom?</Heading>
                     </Stack>
                     <Text fontSize="lg">
-                        Earn certificates upon course completion and gain skills that enhance your career prospects.
+                        Join thousands of teachers who are saving time, reducing stress, and helping their students thrive with EduTrack. Start your free trial today and see the difference for yourself!
                     </Text>
                 </Container>
             </Box>
