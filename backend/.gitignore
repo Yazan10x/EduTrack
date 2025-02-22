@@ -118,3 +118,4 @@ dmypy.json
 # Secrets
 *.env
 production.env
+utils/googleapis/ClassroomAPI.py
