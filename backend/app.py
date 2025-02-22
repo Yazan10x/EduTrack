@@ -23,7 +23,7 @@ def home() -> Response:
 
 @app.route("/v")
 def version() -> str:
-    return "V21.02.2025"
+    return "V22.02.2025"
 
 
 if __name__ == '__main__':
