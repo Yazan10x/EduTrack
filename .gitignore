@@ -1,5 +1,4 @@
 .ide
 *.iml
 *.xml
-*.gitignore
 *.env
