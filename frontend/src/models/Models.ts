@@ -35,3 +35,23 @@ export class User {
         return this.user_type.equals(ObjectId.createFromHexString("000000000000000000000001"));
     }
 }
+
+export class Course {
+    _id: ObjectId;
+    google_classroom_id: string;
+
+    constructor(data: any) {
+        this._id = new ObjectId(data._id.$oid);
+        this.google_classroom_id = data.google_classroom_id;
+    }
+}
+
+export class GoogleClassroom {
+    google_classroom_id: string;
+    name: string;
+
+    constructor(data: any) {
+        this.google_classroom_id = data.google_classroom_id;
+        this.name = data.name;
+    }
+}
