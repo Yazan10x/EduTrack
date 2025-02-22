@@ -1,21 +1,18 @@
+import os
+
 from flask import Blueprint, request, jsonify
-import json
-
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
-from models import Course, Permissions  # Assuming your Course model is in models.py
 from mongoengine import ValidationError
-from bson import ObjectId
 
+from models import Course  # Assuming your Course model is in models.py
 from utils.context import Ctx
-from utils.googleapis import ClassroomAPI
+from utils.googleapis.ClassroomAPI import GoogleAPI
 
 courses = Blueprint('courses', __name__)
 
 @courses.route("/", methods=["PUT"])
 @Ctx.ctx_required([])
-def create_class(ctx: Ctx):
+def create_class(_ctx: Ctx):
     try:
         data = request.json
         name = data.get('name')
@@ -24,23 +21,24 @@ def create_class(ctx: Ctx):
         if not name or not teacher_email:
             return jsonify({"error": "Missing required fields: name and teacher_email"}), 400
 
-        # Authenticate with Google Classroom API
-
-        service = ClassroomAPI.GoogleAPI.get_service()
-
         # Create the course in Google Classroom
         course_body = {
             "name": name,
-            "ownerId": f"teachers/{teacher_email}",
+            "ownerId": teacher_email,
             "section": data.get('section', ""),
             "description": data.get('description', ""),
             "room": data.get('room', ""),
             "courseState": "ACTIVE"
         }
 
+        print(course_body)
+
         try:
-            course = service.courses().create(body=course_body).execute()
+            course = GoogleAPI.create_course(course_body)
             google_classroom_id = course.get("id")
+
+            # Add the provided teacher to the course
+            GoogleAPI.add_teacher(google_classroom_id, teacher_email)
 
             # Store minimal data in MongoDB
             new_course = Course(
@@ -56,7 +54,7 @@ def create_class(ctx: Ctx):
                 "created_at": new_course.created_at.isoformat()
             }), 201
 
-        except HttpError as e:
+        except RuntimeError as e:
             return jsonify({"error": "Google Classroom API error", "message": str(e)}), 500
 
     except ValidationError as ve:
