@@ -6,6 +6,8 @@ import PageNotFound from './screens/PageNotFound';
 import theme from "./theme";
 import LandingNavigation from "./LandingStaticSite/LandingNavigation";
 import {LandingPage} from "./LandingStaticSite/LandingPage";
+import Features from './LandingStaticSite/Features';
+import Mission from './LandingStaticSite/Mission';
 
 
 export const LandingApp = () => (
@@ -17,6 +19,8 @@ export const LandingApp = () => (
                     <Route path="/" element={<LandingNavigation />}>
                         {/* Publicly accessible routes */}
                         <Route index element={<LandingPage/>} />
+                        <Route path="features" element={<Features />} />
+                        <Route path="mission" element={<Mission />} />
                         <Route path="*" element={<PageNotFound />} />
                     </Route>
                 </Routes>
