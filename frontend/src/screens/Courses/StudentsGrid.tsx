@@ -63,7 +63,7 @@ const StudentsGrid: React.FC<CourseProps> = ({ courseId }) => {
             {/* Display course title (optional) */}
             {/* 3) Display students in a responsive grid */}
             <SimpleGrid
-                columns={[1, 2, 3, 4]}
+                columns={[1, 2]}
                 spacing={6}
                 alignItems="stretch"  // Ensures each grid cell stretches
             >

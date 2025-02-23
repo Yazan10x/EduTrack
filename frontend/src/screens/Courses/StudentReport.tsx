@@ -14,11 +14,12 @@ import {
     CardHeader,
     CardBody,
     Icon,
-    useColorModeValue,
+    useColorModeValue, Spacer,
 } from "@chakra-ui/react";
 import { FaClipboardList } from "react-icons/fa";
 import { CoursesAPI } from "../../APIs/CoursesAPI";
 import GoogleClassroomHistory from "./GoogleClassroomHistory";
+import GoogleClassroomHistoryString from "./GoogleClassroomHistoryString";
 
 interface Student {
     _id: { $oid: string };
@@ -129,7 +130,10 @@ const StudentReport: React.FC = () => {
                     </CardBody>
                 </Card>
             </HStack>
+            <Spacer h={10}/>
             <GoogleClassroomHistory student={student}/>
+            <Spacer h={10}/>
+            <GoogleClassroomHistoryString student={student}/>
         </Box>
     );
 };

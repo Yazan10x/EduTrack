@@ -27,9 +27,8 @@ const StudentCard: React.FC<{ student: Student }> = ({ student }) => {
 
     return (
         <Box
-            maxW={"320px"}
+            w={"320px"}
             h={"full"}
-            w={"full"}
             bg={useColorModeValue("white", "gray.900")}
             boxShadow={"2xl"}
             rounded={"lg"}
