@@ -1,7 +1,6 @@
 import FLASK_HTTPS from "./_FLASK_API";
-import { Course } from "../models/Models";
-import { ObjectId } from "bson";
-import { ErrorHandler } from "../utils/error";
+import {Course} from "../models/Models";
+import {ErrorHandler} from "../utils/error";
 
 export namespace CoursesAPI {
     let route_name = "/courses";
@@ -21,7 +20,7 @@ export namespace CoursesAPI {
     };
 
     // Fetch a course by ID
-    export const get_course = async (courseId: ObjectId): Promise<Course> => {
+    export const get_course = async (courseId: string): Promise<Course> => {
         try {
             const res = await FLASK_HTTPS.get(`${route_name}/${courseId}`);
             return new Course(res.data);
@@ -33,12 +32,9 @@ export namespace CoursesAPI {
     export const get_courses = async (): Promise<Course[]> => {
         try {
             const res = await FLASK_HTTPS.get(`${route_name}/list`);
-            console.log("DEBUG: Raw API response:", res.data);
 
             if (Array.isArray(res.data)) {
-                const courses = res.data.map((courseData: any) => new Course(courseData));
-                console.log("DEBUG: Mapped courses:", courses);
-                return courses;
+                return res.data.map((courseData: any) => new Course(courseData));
             } else {
                 console.error("DEBUG: Expected an array from API but got:", res.data);
                 return [];
@@ -47,5 +43,10 @@ export namespace CoursesAPI {
             ErrorHandler.handleAPIError(error, 'Unable to fetch courses');
             return []; // Return an empty array on error.
         }
+    };
+
+    export const get_gclass_url = async (courseId: string): Promise<string> => {
+        const res = await FLASK_HTTPS.get(`${route_name}/gclass_url/${courseId}`);
+        return res.data as string
     };
 }
