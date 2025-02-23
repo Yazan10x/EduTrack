@@ -19,29 +19,28 @@ def create_class(_ctx: Ctx):
         data = request.json or {}
         name = data.get('name')
         course_code = data.get('course_code')
-        teacher_email = data.get('teacher_email')
+        teacher_email: str = data.get('teacher_email')
+
+        default_teacher_id = "63740d6ab87a3421810f2415"
+        if "yazan" in teacher_email.lower():
+            default_teacher_id = "63740d6ab87a3421810f2415"
+        elif "anas" in teacher_email.lower():
+            default_teacher_id = "63740d6ab87a3421810f2415"
+        elif "bilal" in teacher_email.lower():
+            default_teacher_id = "63740d6ab87a3421810f2415"
 
         if not name or not course_code or not teacher_email:
             return jsonify({"error": "Missing required fields: name, course_code, and teacher_email"}), 400
 
         # Create the course in Google Classroom
-        course_response = GoogleClassroomFunctions.create_course(name, course_code, teacher_email)
+        course_response = GoogleClassroomFunctions.create_course(name, course_code, default_teacher_id)
 
-        # Assume the response is a requests.Response object with JSON content
-        response_data = course_response.json()
-        google_classroom_id = response_data.get("id")
+        # If the response is already a dictionary, return it directly
+        if isinstance(course_response, dict):
+            return jsonify(course_response), 200
 
-        if not google_classroom_id:
-            return jsonify({"error": "Failed to create course in Google Classroom"}), 500
-
-        return jsonify({
-            "id": str(course_response.id),
-            "google_classroom_id": google_classroom_id,
-            "name": name,
-            "course_code": course_code,
-            "teacher_email": teacher_email,
-            "created_at": course_response.created_at.isoformat()
-        }), 201
+        # Otherwise, assume it's a requests.Response object and get its JSON
+        return jsonify(course_response.json()), 200
 
     except ValidationError as ve:
         return jsonify({"error": "Invalid course data", "message": str(ve)}), 400

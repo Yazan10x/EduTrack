@@ -20,15 +20,13 @@ import {
 import { CoursesAPI } from "../../APIs/CoursesAPI";
 import Course from "./Course";
 import CreateCourseDialog from "./CreateCourseDialog";
+import {Course as CourseModel, getTeacherEmail} from "../../models/Models";
 
-const CourseCard = ({ course }: { course: any }) => {
+const CourseCard = ({ course }: { course: CourseModel }) => {
     const { isOpen, onOpen, onClose } = useDisclosure(); // For course details modal
 
-    const courseId = course._id?.$oid || course._id || null;
-    const teacher =
-        Array.isArray(course.teachers) && course.teachers.length > 0
-            ? course.teachers[0]?.$oid || course.teachers[0]
-            : "Unknown";
+    const courseId = course._id?.toHexString() || course._id || null;
+    const teacher = getTeacherEmail(course.teacher_id);
 
     const [gclassUrl, setGclassUrl] = useState<string | null>(null);
     const [loadingGclass, setLoadingGclass] = useState<boolean>(false);
@@ -37,7 +35,7 @@ const CourseCard = ({ course }: { course: any }) => {
         if (!courseId) return;
         setLoadingGclass(true);
         try {
-            const url = await CoursesAPI.get_gclass_url(courseId);
+            const url = await CoursesAPI.get_gclass_url(courseId.toString());
             setGclassUrl(url);
             window.open(url, "_blank"); // Open Google Classroom URL in a new tab
         } catch (error) {
@@ -54,11 +52,6 @@ const CourseCard = ({ course }: { course: any }) => {
             </Heading>
             <Text mb={1}>Course Code: {course.course_code || "N/A"}</Text>
             <Text mb={1}>Teacher: {teacher}</Text>
-            {course.semester && course.semester.name && (
-                <Text fontSize="sm" color="gray.500">
-                    Semester: {course.semester.name}
-                </Text>
-            )}
             {courseId && (
                 <Flex mt={3}>
                     <Button size="sm" colorScheme="blue" mr={2} onClick={onOpen}>
@@ -83,7 +76,7 @@ const CourseCard = ({ course }: { course: any }) => {
                     <ModalHeader>Course Details</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <Course courseId={courseId} />
+                        <Course courseId={courseId!.toString()} />
                     </ModalBody>
                 </ModalContent>
             </Modal>
