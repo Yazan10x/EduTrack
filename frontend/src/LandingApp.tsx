@@ -8,6 +8,7 @@ import LandingNavigation from "./LandingStaticSite/LandingNavigation";
 import {LandingPage} from "./LandingStaticSite/LandingPage";
 import Features from './LandingStaticSite/Features';
 import Mission from './LandingStaticSite/Mission';
+import Contact from './LandingStaticSite/Contact';
 
 
 export const LandingApp = () => (
@@ -21,6 +22,7 @@ export const LandingApp = () => (
                         <Route index element={<LandingPage/>} />
                         <Route path="features" element={<Features />} />
                         <Route path="mission" element={<Mission />} />
+                        <Route path="contact" element={<Contact />} />
                         <Route path="*" element={<PageNotFound />} />
                     </Route>
                 </Routes>

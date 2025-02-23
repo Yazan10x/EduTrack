@@ -10,7 +10,7 @@ class GoogleRootApi(requests.Session):
         super().__init__()
         self.base_url = os.getenv("CLASSROOM_API", "")
         self.headers.update({
-            "Authorization": f"Bearer {os.getenv('YAZAN_BEARER_TOKEN', "")}",
+            "Authorization": f"Bearer {os.getenv('YAZAN_BEARER_TOKEN', '')}",
             "Accept": "application/json",
             "Content-Type": "application/json"
         })

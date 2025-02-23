@@ -12,7 +12,8 @@ import {
     PopoverTrigger,
     PopoverContent,
     useColorModeValue,
-    useDisclosure, Spacer,
+    useDisclosure,
+    Spacer,
 } from '@chakra-ui/react'
 import {
     HamburgerIcon,
@@ -20,86 +21,108 @@ import {
     ChevronDownIcon,
     ChevronRightIcon,
 } from '@chakra-ui/icons'
-import {Outlet} from "react-router-dom";
-import React from "react";
-import Footer from "../components/Footer";
-import ProjectLogo from "../components/ProjectLogo";
-import Button from "../ui/button/Button";
+import { Outlet } from "react-router-dom"
+import React from "react"
+import Footer from "../components/Footer"
+import ProjectLogo from "../components/ProjectLogo"
+import Button from "../ui/button/Button"
 
 export default function LandingNavigation() {
     const { isOpen, onToggle } = useDisclosure()
 
     return (
-        // 1) Make this container take up full viewport height and use column flex layout
         <Box minH="100vh" display="flex" flexDirection="column">
-            <Flex
-                bg={useColorModeValue('background', 'background')} // Uses semantic token
-                color={useColorModeValue('text', 'text')}           // Uses semantic token
-                minH="60px"
-                py={{ base: 2 }}
-                px={{ base: 4 }}
-                borderBottom={1}
-                borderStyle="solid"
-                borderColor={useColorModeValue('border', 'border')} // Uses semantic token
-                align="center"
+            <Box
+                position="sticky"
+                top={0}
+                zIndex={1000}
+                boxShadow="0 2px 10px rgba(0,0,0,0.08)"
+                bg={useColorModeValue('rgba(255,255,255,0.9)', 'rgba(26,32,44,0.9)')}
+                backdropFilter="blur(10px)"
+                transition="all 0.3s ease"
             >
                 <Flex
-                    flex={{ base: 1, md: 'auto' }}
-                    ml={{ base: -2 }}
-                    display={{ base: 'flex', md: 'none' }}
+                    maxW="7xl"
+                    mx="auto"
+                    color={useColorModeValue('text', 'text')}
+                    minH="70px"
+                    py={{ base: 3 }}
+                    px={{ base: 4 }}
+                    align="center"
                 >
-                    <IconButton
-                        onClick={onToggle}
-                        icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-                        variant="ghost"
-                        aria-label="Toggle Navigation"
-                    />
-                </Flex>
-
-                <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-                    <ProjectLogo />
-                    <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-                        <DesktopNav />
-                    </Flex>
-                </Flex>
-
-                <Stack
-                    flex={{ base: 1, md: 0 }}
-                    justify="flex-end"
-                    direction="row"
-                    spacing={6}
-                    display={{ base: 'none', md: 'flex' }} // Hide on mobile
-                >
-                    <Button
-                        variant="primary"
-                        withRightArrow
-                        onClick={() => window.open(process.env.REACT_APP_DASHBOARD_SITE_ADDRESS, '_blank')}
+                    <Flex
+                        flex={{ base: 1, md: 'auto' }}
+                        ml={{ base: -2 }}
+                        display={{ base: 'flex', md: 'none' }}
                     >
-                        Dashboard
-                    </Button>
-                </Stack>
+                        <IconButton
+                            onClick={onToggle}
+                            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
+                            variant="ghost"
+                            aria-label="Toggle Navigation"
+                            _hover={{
+                                bg: useColorModeValue('gray.100', 'gray.700'),
+                                transform: 'scale(1.05)'
+                            }}
+                            transition="all 0.2s"
+                        />
+                    </Flex>
 
-                <Stack
-                    flex={{ base: 1, md: 0 }}
-                    justify="flex-end"
-                    direction="row"
-                    spacing={6}
-                    display={{ base: 'flex', md: 'none' }} // Hide on mobile
-                >
-                    <Spacer />
-                </Stack>
-            </Flex>
+                    <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+                        <Box
+                            transition="transform 0.2s"
+                            _hover={{ transform: 'scale(1.05)' }}
+                            as='a'
+                            href="/"
+                        >
+                            <ProjectLogo />
+                        </Box>
+                        <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+                            <DesktopNav />
+                        </Flex>
+                    </Flex>
 
-            <Collapse in={isOpen} animateOpacity>
-                <MobileNav />
-            </Collapse>
+                    <Stack
+                        flex={{ base: 1, md: 0 }}
+                        justify="flex-end"
+                        direction="row"
+                        spacing={6}
+                        display={{ base: 'none', md: 'flex' }}
+                    >
+                        <Button
+                            variant="primary"
+                            withRightArrow
+                            onClick={() => window.open(process.env.REACT_APP_DASHBOARD_SITE_ADDRESS, '_blank')}
+                            _hover={{
+                                transform: 'translateY(-2px)',
+                                boxShadow: 'lg'
+                            }}
+                            transition="all 0.2s"
+                        >
+                            Dashboard
+                        </Button>
+                    </Stack>
 
-            {/* 2) Let this main content area expand to push the footer down when content is short */}
+                    <Stack
+                        flex={{ base: 1, md: 0 }}
+                        justify="flex-end"
+                        direction="row"
+                        spacing={6}
+                        display={{ base: 'flex', md: 'none' }}
+                    >
+                        <Spacer />
+                    </Stack>
+                </Flex>
+
+                <Collapse in={isOpen} animateOpacity>
+                    <MobileNav />
+                </Collapse>
+            </Box>
+
             <Box p={4} flex="1">
                 <Outlet />
             </Box>
 
-            {/* Footer remains at bottom if content doesn't fill the page */}
             <Box>
                 <Footer />
             </Box>
@@ -108,30 +131,59 @@ export default function LandingNavigation() {
 }
 
 const DesktopNav = () => {
-    // Move hooks outside of any logic
     const colors = {
-        link: useColorModeValue('primary.800', 'primary.200'),
-        linkHover: useColorModeValue('primary.900', 'primary.50'),
-        popoverBg: useColorModeValue('primary.50', 'primary.800'),
+        link: useColorModeValue('gray.600', 'gray.200'),
+        linkHover: useColorModeValue('gray.800', 'white'),
+        popoverBg: useColorModeValue('white', 'gray.800'),
+        ghostBg: useColorModeValue('gray.50', 'gray.700'),
     };
 
     return (
-        <Stack direction={'row'} spacing={4}>
+        <Stack 
+            direction={'row'} 
+            spacing={8} 
+            align="center" 
+        >
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
                     <Popover trigger={'hover'} placement={'bottom-start'}>
                         <PopoverTrigger>
                             <Box
                                 as="a"
-                                p={2}
+                                p={4} 
                                 href={navItem.href ?? '#'}
-                                fontSize={'sm'}
-                                fontWeight={500}
-                                color={colors.link} // Use precomputed value
+                                fontSize="lg" 
+                                fontWeight={600} 
+                                letterSpacing="wide" 
+                                color={colors.link}
+                                position="relative"
+                                borderRadius="md"
+                                transition="all 0.3s ease"
                                 _hover={{
                                     textDecoration: 'none',
-                                    color: colors.linkHover, // Use precomputed value
-                                }}>
+                                    color: colors.linkHover,
+                                    bg: colors.ghostBg,
+                                    transform: 'translateY(-2px)',
+                                }}
+                                _after={{
+                                    content: '""',
+                                    position: 'absolute',
+                                    bottom: '0',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    width: '0%',
+                                    height: '2px',
+                                    bg: 'primary.500',
+                                    transition: 'all 0.3s ease',
+                                }}
+                                sx={{
+                                    '&:hover': {
+                                        '&:after': {
+                                            width: '80%'
+                                        }
+                                    }
+                                }}
+                            >
                                 {navItem.label}
                             </Box>
                         </PopoverTrigger>
@@ -140,10 +192,25 @@ const DesktopNav = () => {
                             <PopoverContent
                                 border={0}
                                 boxShadow={'xl'}
-                                bg={colors.popoverBg} // Use precomputed value
+                                bg={colors.popoverBg}
                                 p={4}
                                 rounded={'xl'}
-                                minW={'sm'}>
+                                minW={'sm'}
+                                mt={2}
+                                _after={{
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: '-15px',
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    borderStyle: 'solid',
+                                    borderColor: colors.popoverBg,
+                                    borderWidth: '15px',
+                                }}
+                                _hover={{
+                                    transform: 'translateY(2px)',
+                                }}
+                            >
                                 <Stack>
                                     {navItem.children.map((child) => (
                                         <DesktopSubNav key={child.label} {...child} />
@@ -159,24 +226,37 @@ const DesktopNav = () => {
 }
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+    const hoverBg = useColorModeValue('gray.50', 'gray.700')
+    
     return (
         <Box
             as="a"
             href={href}
             role={'group'}
             display={'block'}
-            p={2}
+            p={3}
             rounded={'md'}
-            _hover={{ bg: useColorModeValue('neutral.100', 'neutral.700') }}>
+            transition="all 0.2s ease"
+            _hover={{ 
+                bg: hoverBg,
+                transform: 'translateX(5px)'
+            }}
+        >
             <Stack direction={'row'} align={'center'}>
                 <Box>
                     <Text
                         transition={'all .3s ease'}
-                        _groupHover={{ color: 'primary' }}
-                        fontWeight={500}>
+                        _groupHover={{ color: 'primary.500' }}
+                        fontWeight={500}
+                    >
                         {label}
                     </Text>
-                    <Text fontSize={'sm'}>{subLabel}</Text>
+                    <Text 
+                        fontSize={'sm'} 
+                        color={useColorModeValue('gray.500', 'gray.400')}
+                    >
+                        {subLabel}
+                    </Text>
                 </Box>
                 <Flex
                     transition={'all .3s ease'}
@@ -185,14 +265,14 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
                     _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
                     justify={'flex-end'}
                     align={'center'}
-                    flex={1}>
-                    <Icon color={'primary'} w={5} h={5} as={ChevronRightIcon} />
+                    flex={1}
+                >
+                    <Icon color={'primary.500'} w={5} h={5} as={ChevronRightIcon} />
                 </Flex>
             </Stack>
         </Box>
     )
 }
-
 const MobileNav = () => {
     return (
         <Stack bg={useColorModeValue('background', 'background')} p={4} display={{ md: 'none' }}>
@@ -269,6 +349,10 @@ const NAV_ITEMS: Array<NavItem> = [
     {
         label: 'Mission',
         href: '/mission',
+    },
+    {
+        label: 'Contact',
+        href: '/contact',
     },
     // {
     //     label: 'About',

@@ -1,203 +1,187 @@
-import React from 'react';
+import React from "react";
 import {
-    Box,
-    Flex,
-    Heading,
-    Text,
-    useColorModeValue,
-    Container,
-    Icon,
-    Stack,
-    Button,
-} from '@chakra-ui/react';
-import { FaBook, FaUserGraduate, FaChalkboardTeacher, FaLightbulb, FaAward, FaLock } from 'react-icons/fa';
+  Box,
+  Container,
+  Grid,
+  Heading,
+  Text,
+  Button,
+  Icon,
+  useColorModeValue,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
+import {
+  FaBook,
+  FaUserGraduate,
+  FaCalendar,
+  FaBrain,
+  FaShieldAlt,
+  FaArrowRight,
+  FaChartLine,
+} from "react-icons/fa";
 
-const Features: React.FC = () => {
-    // We'll reference the custom keyframe animation by name
-    const floatAnimation = 'float 2s ease-in-out infinite';
+interface FeatureCardProps {
+  icon: any;
+  title: string;
+  description: string;
+}
+const FeatureCard: React.FC<FeatureCardProps> = ({
+  icon,
+  title,
+  description,
+}) => {
+  const cardBg = useColorModeValue("white", "neutral.800");
+  const iconBg = useColorModeValue("secondary.50", "secondary.900");
+  const textColor = useColorModeValue("neutral.600", "neutral.300");
 
-    // Card style with hover animation
-    const cardStyle = {
-        p: 6,
-        textAlign: 'center' as const,
-        bg: useColorModeValue('white', 'gray.800'),
-        borderRadius: 'lg',
-        boxShadow: 'lg',
-        transition: 'all 0.3s ease',
-        _hover: {
-            animation: floatAnimation,
-            boxShadow: 'xl',
-        },
-    };
+  return (
+    <Box
+      bg={cardBg}
+      p={6}
+      rounded="xl"
+      shadow="lg"
+      height="100%"
+      transition="all 0.3s"
+      _hover={{
+        transform: "translateY(-4px)",
+        shadow: "xl",
+      }}
+    >
+      <HStack align="start" spacing={4}>
+        <Box p={2} bg={iconBg} rounded="lg" color="secondary.500">
+          <Icon as={icon} boxSize={6} />
+        </Box>
+        <VStack align="start" spacing={2}>
+          <Heading
+            size="md"
+            color={useColorModeValue("neutral.800", "neutral.50")}
+          >
+            {title}
+          </Heading>
+          <Text color={textColor}>{description}</Text>
+        </VStack>
+      </HStack>
+    </Box>
+  );
+};
 
-    return (
-        <>
-            {/* Define the @keyframes in a <style> block */}
-            <style>
-                {`
-          @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-          }
-        `}
-            </style>
+const Features = () => {
+  const gradientText = useColorModeValue(
+    "linear(to-r, secondary.500, secondary.700)",
+    "linear(to-r, secondary.400, secondary.600)"
+  );
+  const ctaBg = useColorModeValue(
+    "linear(to-r, secondary.600, secondary.700)",
+    "linear(to-r, secondary.500, secondary.600)"
+  );
 
-            <Box bg={'white.50'} color="text" py={12} position="relative" overflow="hidden">
-                {/* Background Gradients */}
-                <Box
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    w="100%"
-                    h="100%"
-                    zIndex={0}
-                    bgGradient={useColorModeValue(
-                        'radial(circle at top left, secondary.50, transparent), radial(circle at bottom right, primary.50, transparent)',
-                        'radial(circle at top left, gray.800, transparent), radial(circle at bottom right, gray.900, transparent)'
-                    )}
-                />
-                <Box
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    w="100%"
-                    h="100%"
-                    zIndex={0}
-                    bgGradient={useColorModeValue(
-                        'linear(to-b, primary.50, transparent)',
-                        'linear(to-b, gray.700, transparent)'
-                    )}
-                    opacity={0.5}
-                />
+  return (
+    <Box
+      minH="100vh"
+      bg={useColorModeValue(
+        "linear(to-b, primary.50, white)",
+        "linear(to-b, neutral.900, neutral.800)"
+      )}
+      py={16}
+    >
+      {/* Hero Section */}
+      <Container maxW="7xl" textAlign="center" mb={16}>
+        <Heading
+          as="h1"
+          size="2xl"
+          mb={6}
+          bgGradient={gradientText}
+          bgClip="text"
+        >
+          Transform Your Teaching Experience
+        </Heading>
+        <Text
+          fontSize="xl"
+          color={useColorModeValue("neutral.600", "neutral.300")}
+          maxW="2xl"
+          mx="auto"
+        >
+          EduTrack brings intelligent tools and insights to your classroom,
+          helping you focus on what matters most—your students.
+        </Text>
+      </Container>
 
-                {/* Hero Section */}
-                <Container maxW="7xl" textAlign="center" mb={12} position="relative" zIndex={1}>
-                    <Heading size="2xl" mb={4} bgGradient="linear(to-r, secondary.400, primary.500)" bgClip="text">
-                        Features Designed for Teachers
-                    </Heading>
-                    <Text fontSize="xl" color={useColorModeValue('gray.600', 'gray.300')}>
-                        EduTrack is built to simplify your workload and help you focus on what matters most—your students.
-                    </Text>
-                </Container>
+      {/* Features Grid - Equal sized cards */}
+      <Container maxW="7xl">
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(3, 1fr)",
+          }}
+          gap={6}
+        >
+          <FeatureCard
+            icon={FaBrain}
+            title="AI-Powered Insights"
+            description="Leverage advanced AI algorithms to receive personalized recommendations for each student's learning journey."
+          />
+          <FeatureCard
+            icon={FaBook}
+            title="Smart Assignment Tracking"
+            description="Our intelligent system automatically organizes and prioritizes assignments, providing real-time updates on submission status."
+          />
+          <FeatureCard
+            icon={FaUserGraduate}
+            title="Student Progress Dashboard"
+            description="Get comprehensive insights into individual and class-wide performance with our intuitive analytics dashboard."
+          />
+          <FeatureCard
+            icon={FaCalendar}
+            title="Classroom Management"
+            description="Seamlessly integrate with Google Classroom to manage all your educational resources in one place."
+          />
+          <FeatureCard
+            icon={FaChartLine}
+            title="Insightful Dashboard"
+            description="Explore detailed statistics and analytics on your dashboard to uncover trends, track progress, and gain actionable insights for your classroom."
+          />
+          <FeatureCard
+            icon={FaShieldAlt}
+            title="Role-Based Access Control"
+            description="Ensure secure and precise access management with our advanced role-based authentication system, tailored to protect your classroom data."
+          />
+        </Grid>
 
-                {/* Features Grid */}
-                <Container maxW="6xl" position="relative" zIndex={1}>
-                    {/* First Row */}
-                    <Flex direction={{ base: 'column', md: 'row' }} gap={8} mb={8}>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaBook} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">Assignment Tracking</Heading>
-                                <Text>
-                                    Easily track submitted, late, and pending assignments—all in one organized dashboard.
-                                </Text>
-                            </Stack>
-                        </Box>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaUserGraduate} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">Student Insights</Heading>
-                                <Text>
-                                    Get personalized insights into each student’s learning style, progress, and growth areas.
-                                </Text>
-                            </Stack>
-                        </Box>
-                    </Flex>
-
-                    {/* Second Row */}
-                    <Flex direction={{ base: 'column', md: 'row' }} gap={8} mb={8}>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaChalkboardTeacher} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">Classroom Management</Heading>
-                                <Text>
-                                    Manage Google Classrooms, track performance, and access everything in one place.
-                                </Text>
-                            </Stack>
-                        </Box>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaLightbulb} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">AI-Powered Recommendations</Heading>
-                                <Text>
-                                    Receive actionable steps to help each student grow, powered by AI-driven insights.
-                                </Text>
-                            </Stack>
-                        </Box>
-                    </Flex>
-
-                    {/* Third Row */}
-                    <Flex direction={{ base: 'column', md: 'row' }} gap={8}>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaAward} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">Time-Saving Tools</Heading>
-                                <Text>
-                                    Automate repetitive tasks and spend more time teaching, not managing.
-                                </Text>
-                            </Stack>
-                        </Box>
-                        <Box {...cardStyle} flex={1}>
-                            <Stack direction="column" align="center" spacing={4}>
-                                <Icon as={FaLock} w={10} h={10} color="secondary.700" />
-                                <Heading size="md">Secure & Reliable</Heading>
-                                <Text>
-                                    Built with privacy and security in mind, so your data is always safe.
-                                </Text>
-                            </Stack>
-                        </Box>
-                    </Flex>
-                </Container>
-
-                {/* Call-to-Action Section */}
-                <Box
-                    mt={12}
-                    py={12}
-                    bgGradient={useColorModeValue(
-                        'linear(to-r, secondary.50, secondary.100)',
-                        'linear(to-r, gray.800, gray.900)'
-                    )}
-                    position="relative"
-                    overflow="hidden"
-                >
-                    {/* Animated background shapes */}
-                    <Box
-                        position="absolute"
-                        top="-50%"
-                        left="-10%"
-                        w="120%"
-                        h="200%"
-                        bg="rgba(255, 255, 255, 0.1)"
-                        transform="rotate(45deg)"
-                        zIndex={0}
-                    />
-                    <Box
-                        position="absolute"
-                        top="-30%"
-                        right="-10%"
-                        w="100%"
-                        h="200%"
-                        bg="rgba(255, 255, 255, 0.05)"
-                        transform="rotate(-30deg)"
-                        zIndex={0}
-                    />
-
-                    <Container maxW="md" textAlign="center" position="relative" zIndex={1}>
-                        <Heading size="lg" mb={4} bgGradient="linear(to-r, secondary.400, primary.500)" bgClip="text">
-                            Ready to Transform Your Classroom?
-                        </Heading>
-                        <Text fontSize="lg" mb={6} color={useColorModeValue('gray.600', 'gray.300')}>
-                            Join thousands of teachers using EduTrack to save time and help their students thrive.
-                        </Text>
-                        <Button colorScheme="secondary" size="lg">
-                            Get Started Now
-                        </Button>
-                    </Container>
-                </Box>
-            </Box>
-        </>
-    );
+        {/* Call to Action */}
+        <Box
+          mt={16}
+          p={8}
+          rounded="2xl"
+          bgGradient={ctaBg}
+          color="white"
+          textAlign="center"
+        >
+          <Heading size="lg" mb={4}>
+            Ready to Revolutionize Your Classroom?
+          </Heading>
+          <Text fontSize="lg" mb={8} maxW="2xl" mx="auto" opacity={0.9}>
+            Join thousands of educators who are already using EduTrack to
+            transform their teaching experience and enhance student outcomes.
+          </Text>
+          <Button
+            size="lg"
+            bg="white"
+            color="secondary.600"
+            rightIcon={<Icon as={FaArrowRight} />}
+            _hover={{
+              bg: "neutral.100",
+              color: "secondary.700",
+            }}
+            onClick={() => window.open(process.env.REACT_APP_DASHBOARD_SITE_ADDRESS, '_blank')}
+          >
+            Get Started Free
+          </Button>
+        </Box>
+      </Container>
+    </Box>
+  );
 };
 
 export default Features;

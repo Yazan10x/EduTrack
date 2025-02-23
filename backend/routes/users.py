@@ -4,6 +4,7 @@ import json
 from mongoengine.errors import ValidationError
 from flask import Blueprint, jsonify, request
 from mongoengine.errors import DoesNotExist
+from utils.llm_interactions_apis.GeminiClass import GeminiClass
 
 from utils.context import Ctx
 
@@ -121,3 +122,24 @@ def get_users(_: Ctx):
         return jsonify(users_json), 200
     except Exception as e:
         return jsonify({"error": "Unable to fetch users", "message": str(e)}), 500
+
+@users.route("/get_gemini", methods=["POST"])
+@Ctx.ctx_required([Permissions.CAN_ACCESS_USER])
+def get_gemini(_: Ctx):
+    try:
+        # Extract JSON data from the request
+        data = request.get_json()
+
+        # Validate that student_data exists and is not empty
+        if not data or "prompt" not in data or not data["prompt"]:
+            return jsonify({"error": "prompt is required"}), 400
+        
+        student_data = data["prompt"]
+
+        # Process the student data using GeminiClass
+        gemini_response = GeminiClass().analyze_student_data(student_data)
+        
+        return jsonify({"response": gemini_response}), 200
+
+    except Exception as e:
+        return jsonify({"error": "Unable to fetch Gemini response", "message": str(e)}), 500

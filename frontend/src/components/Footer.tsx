@@ -12,7 +12,7 @@ import {
     Image, useToast, Spacer,
 } from '@chakra-ui/react'
 import React, {ReactNode, useState} from 'react'
-import { FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaGithub, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { BiMailSend } from 'react-icons/bi'
 import {RiMailSendFill, SiTiktok, SiTwitter} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
@@ -78,7 +78,16 @@ export default function Footer() {
             });
             return;
         }
-
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            toast({
+                title: "Invalid email format.",
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         setIsSubmitting(true);
         try {
             const message = await UsersAPI.subscribe_to_newsletter(email);
@@ -114,45 +123,42 @@ export default function Footer() {
                     <Stack spacing={6}>
                         <Spacer></Spacer>
                         <Box>
-                            {/*<Image*/}
-                            {/*    src="/logo1.png"*/}
-                            {/*    mb={8}*/}
-                            {/*    maxW="100px"*/}
-                            {/*    mx="auto"*/}
-                            {/*/>*/}
+                            <Image
+                                src="/logo1.png"
+                                mb={8}
+                                maxW="100px"
+                                mx="auto"
+                            />
                         </Box>
                         <Text fontSize={'sm'}>© 2025 {WEB_SITE_TITLE}. All rights reserved</Text>
                     </Stack>
                     <Stack align={'flex-start'}>
-                        <ListHeader>Company</ListHeader>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            About us
+                        <ListHeader><Text fontWeight='bold'>Company</Text></ListHeader>
+                        <Box as="a" href={process.env.REACT_APP_LANDING_SITE_ADDRESS} target="_blank" rel="noopener noreferrer">
+                            Home
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Blog
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/features`} target="_blank" rel="noopener noreferrer">
+                            Features
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Contact us
-                        </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Pricing
-                        </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Testimonials
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/mission`} target="_blank" rel="noopener noreferrer">
+                            About Us
                         </Box>
                     </Stack>
                     <Stack align={'flex-start'}>
-                        <ListHeader>Support</ListHeader>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        <ListHeader><Text fontWeight='bold'>Support</Text></ListHeader>
+                        {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Help Center
+                        </Box> */}
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/contact`} target="_blank" rel="noopener noreferrer">
+                            Contact us
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        <Box as="a" href={`https://policies.google.com/terms?hl=en-US`} target="_blank" rel="noopener noreferrer">
                             Terms of Service
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Legal Policy
-                        </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        </Box> */}
+                        <Box as="a" href={`https://policies.google.com/privacy?hl=en-US`} target="_blank" rel="noopener noreferrer">
                             Privacy Policy
                         </Box>
                         {/*<Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/status`} target="_blank" rel="noopener noreferrer">*/}
@@ -183,14 +189,14 @@ export default function Footer() {
                             />
                         </Stack>
                         <Stack direction={'row'} spacing={6}>
-                            <SocialButton label={'LinkedIn'} href={'#'}>
+                            <SocialButton label={'LinkedIn'} href={'https://www.linkedin.com/in/anousalma'}>
                                 <FaLinkedin />
                             </SocialButton>
-                            <SocialButton label={'X'} href={'#'}>
-                                <SiTwitter />
+                            <SocialButton label={'Github'} href={'https://github.com/Yazan10x/EduTrack'}>
+                                <FaGithub />
                             </SocialButton>
-                            <SocialButton label={'Instagram'} href={'#'}>
-                                <FaInstagram />
+                            <SocialButton label={'Twitter'} href={'https://x.com/yazanarmoush'}>
+                                <FaTwitter />
                             </SocialButton>
                         </Stack>
                     </Stack>
