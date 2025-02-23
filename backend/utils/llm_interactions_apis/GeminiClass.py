@@ -31,11 +31,22 @@ class GeminiClass:
         genai.configure(api_key=GeminiClass.GOOGLE_API_KEY)
         model = genai.GenerativeModel('gemini-pro')
 
-        prompt = """Okay Gemini, analyze student data I will provide the data (could be in any format).
-        Based on this data, suggest future development plans focusing on academic growth and skill enhancement.
-        Recommend actionable strategies to improve their learning effectiveness. Respond concisely, within 100 words as a paragraph.
-        Here is the student data in JSON format:
-        """ + data
+        prompt = f"""
+        Gemini, analyze the following student data, which may include assignment scores, feedback, submission times, and other academic performance details. 
+
+        Some of this data may be **useful**, while some may be **irrelevant**. Your task is to:
+        - **Identify and prioritize** the most meaningful information for analysis.
+        - **Filter out** any unhelpful or redundant details.
+        - **Extract key insights**, such as strengths, weaknesses, learning patterns, and potential challenges.
+        - Provide **personalized, actionable strategies** for academic growth and skill enhancement.
+
+        Ensure your response is **concise yet thorough**, structured as **one well-formed paragraph**, focusing only on **relevant** insights.
+
+        Here is the student data:
+        {data}
+        """
+
+
 
         try:
             response = model.generate_content(prompt)
