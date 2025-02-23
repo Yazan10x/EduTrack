@@ -56,21 +56,14 @@ class GoogleClassroomFunctions:
         return courses.json()
 
     @staticmethod
-    def get_course_google_classroom_student_data(course_id: ObjectId):
-        pass
-
-    @staticmethod
-    def get_student_google_classroom_data(email: str):
-        pass
-
-    @staticmethod
-    def get_user_id(_id: str):
+    def get_teacher_by_id(_id: str):
         user = GoogleClassroomFunctions.__get_api().get(f"/teachers/{_id}")
         return user.json()
 
     @staticmethod
-    def get_student_google_classroom_data_for_course(email: str, course: ObjectId):
-        pass
+    def get_student_by_id(_id: str):
+        user = GoogleClassroomFunctions.__get_api().get(f"/students/{_id}")
+        return user.json()
 
     @staticmethod
     def get_gclass_url(course_id: str):
