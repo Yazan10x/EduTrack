@@ -11,7 +11,7 @@ class GeminiClass:
     A class to interact with a Large Language Model (LLM) like Gemini
     for analyzing student data and generating development plans.
     """
-    
+
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
     @staticmethod
@@ -32,19 +32,21 @@ class GeminiClass:
         model = genai.GenerativeModel('gemini-pro')
 
         prompt = f"""
-        Gemini, analyze the following student data, which may include assignment scores, feedback, submission times, and other academic performance details. 
+                Gemini, analyze the following student data, which includes assignment scores, feedback, submission times, and other academic performance details. 
 
-        Some of this data may be **useful**, while some may be **irrelevant**. Your task is to:
-        - **Identify and prioritize** the most meaningful information for analysis.
-        - **Filter out** any unhelpful or redundant details.
-        - **Extract key insights**, such as strengths, weaknesses, learning patterns, and potential challenges.
-        - Provide **personalized, actionable strategies** for academic growth and skill enhancement.
+                Your goal is to provide **clear, confident, and constructive guidance** for teachers to help students improve. Specifically, you should:
+                - **Identify key academic trends**, including strengths, weaknesses, and learning patterns.
+                - **Highlight specific student challenges** (e.g., late submissions, low engagement, inconsistent performance).
+                - **Deliver direct, actionable recommendations** for teachers on how to support the student effectively.
+                - **Suggest practical strategies** for improving performance, motivation, and skill development.
 
-        Ensure your response is **concise yet thorough**, structured as **one well-formed paragraph**, focusing only on **relevant** insights.
+                Your response should be **firm yet supportive**, offering **clear solutions** rather than vague observations. Ensure the advice is **teacher-focused**, empowering educators to take **immediate, effective action**.  
 
-        Here is the student data:
-        {data}
-        """
+                Structure your response as **a concise, well-formed paragraph** that is **professional, insightful, and results-driven**.
+
+                Here is the student data:
+                {data}
+                """
 
 
 
@@ -53,7 +55,7 @@ class GeminiClass:
             return response.text
         except Exception as e:
             return f"Error: Gemini API call failed - {e}"
-        
+
 
 if __name__ == '__main__':
     # Example Usage:

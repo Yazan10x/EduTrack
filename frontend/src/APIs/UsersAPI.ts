@@ -64,13 +64,13 @@ export namespace UsersAPI {
         }
     };
 
-    export const get_gemini = async (data: any): Promise<string | null> => {
+    export const get_gemini = async (data: string): Promise<string> => {
         try {
             const res = await FLASK_HTTPS.post(`${route_name}/get_gemini`, { prompt: data });
             return res.data.response;
         } catch (error) {
             ErrorHandler.handleAPIError(error, 'Unable to fetch Gemini response');
-            return null;
+            return "Error";
         }
     };
 

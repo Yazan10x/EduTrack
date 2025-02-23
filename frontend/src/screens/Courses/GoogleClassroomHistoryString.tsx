@@ -5,11 +5,16 @@ import {
     Box,
     Text,
     Spinner,
+    Button,
+    useToast,
+    VStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { get_gclass_course_submissions } from "../../APIs/GClassAPI";
 import { CoursesAPI } from "../../APIs/CoursesAPI";
+import {UsersAPI} from "../../APIs/UsersAPI";
 
+// Constants / interfaces
 const BASE_COURSE: string = "67bad928fb4fa5278425c3d9";
 
 interface Student {
@@ -36,20 +41,26 @@ interface SubmissionHistory {
 }
 
 interface GClassStudentSubmission {
-    submissionState: string;      // e.g., "STATES_CREATED", "STATES_RETURNED", etc.
+    submissionState: string;
     workNotSubmittedAndLate: boolean;
     assignedGrade: number;
-    workType: string;             // e.g., "WORKTYPE_ASSIGNMENT"
+    workType: string;
     submissionHistory: SubmissionHistory[];
-    // ... other fields we don't actually need to keep
 }
 
-const GoogleClassroomHistoryString: React.FC<{ student: Student }> = ({ student }) => {
+const GoogleClassroomHistoryForString: React.FC<{ student: Student }> = ({ student }) => {
+    const toast = useToast();
+
+    // Course / submissions
     const [course, setCourse] = useState<any>(null);
     const [courseLoading, setCourseLoading] = useState(true);
 
     const [submissions, setSubmissions] = useState<GClassStudentSubmission[]>([]);
     const [submissionsLoading, setSubmissionsLoading] = useState(true);
+
+    // AI report
+    const [aiLoading, setAiLoading] = useState(false);
+    const [aiReport, setAiReport] = useState<string>("");
 
     useEffect(() => {
         // 1) Fetch Course
@@ -72,9 +83,9 @@ const GoogleClassroomHistoryString: React.FC<{ student: Student }> = ({ student 
                     BASE_COURSE
                 );
 
-                // 3) Transform raw submissions to only keep what's relevant for LLM
-                const relevantSubmissions = rawSubmissions.map((sub: any) => {
-                    return {
+                // 3) Keep only what's relevant for LLM
+                const relevantSubmissions: GClassStudentSubmission[] = rawSubmissions.map(
+                    (sub: any) => ({
                         submissionState: sub.submissionState,
                         workNotSubmittedAndLate: sub.workNotSubmittedAndLate,
                         assignedGrade: sub.assignedGrade,
@@ -94,8 +105,8 @@ const GoogleClassroomHistoryString: React.FC<{ student: Student }> = ({ student 
                             }
                             return {};
                         }),
-                    };
-                });
+                    })
+                );
 
                 setSubmissions(relevantSubmissions);
             } catch (error) {
@@ -109,9 +120,35 @@ const GoogleClassroomHistoryString: React.FC<{ student: Student }> = ({ student 
         fetchSubmissions();
     }, [student]);
 
+    // 4) Handle "Generate AI Report" click
+    const handleGenerateReport = async () => {
+        try {
+            setAiLoading(true);
+            setAiReport("");
+
+            // Turn submissions into JSON string as the "prompt"
+            const prompt = JSON.stringify(submissions, null, 2);
+
+            // This calls your hypothetical endpoint that returns the AI response
+            const response: string = await UsersAPI.get_gemini(prompt);
+
+            setAiReport(response);
+        } catch (error: any) {
+            console.error("Error generating AI report:", error);
+            toast({
+                title: "Error generating AI report",
+                description: error?.message || "Unknown error",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
+        } finally {
+            setAiLoading(false);
+        }
+    };
+
     return (
-        <Box p={4} borderWidth="1px" borderRadius="lg" boxShadow="md">
-            {/* Course Title or Loading */}
+        <Box p={6} borderWidth="1px" borderRadius="lg" boxShadow="md" bg="teal.50">
             {courseLoading ? (
                 <Spinner size="md" color="blue.500" />
             ) : course ? (
@@ -122,31 +159,37 @@ const GoogleClassroomHistoryString: React.FC<{ student: Student }> = ({ student 
                 <Text color="red.500">Course not found</Text>
             )}
 
-            {/* Show the relevant submissions as a JSON string */}
             {submissionsLoading ? (
                 <Spinner size="md" color="green.500" />
-            ) : submissions.length === 0 ? (
-                <Text color="gray.500" mt={2}>
-                    No submissions found
-                </Text>
             ) : (
-                <Box>
-                    <Text fontSize="lg" fontWeight="semibold" mb={2}>
-                        Submissions (LLM-Ready):
-                    </Text>
-                    <Text
-                        fontSize="sm"
-                        whiteSpace="pre-wrap"
-                        bg="gray.100"
-                        p={3}
-                        borderRadius="md"
+                <VStack align="start" spacing={4}>
+                    <Button
+                        colorScheme="blue"
+                        onClick={handleGenerateReport}
+                        isLoading={aiLoading}
+                        loadingText="Generating..."
                     >
-                        {JSON.stringify(submissions, null, 2)}
-                    </Text>
-                </Box>
+                        Generate AI Report
+                    </Button>
+
+                    {aiReport && (
+                        <Box
+                            w="100%"
+                            p={4}
+                            bg="white"
+                            borderRadius="md"
+                            borderWidth="1px"
+                            boxShadow="sm"
+                        >
+                            <Text fontSize="md" whiteSpace="pre-wrap">
+                                {aiReport}
+                            </Text>
+                        </Box>
+                    )}
+                </VStack>
             )}
         </Box>
     );
 };
 
-export default GoogleClassroomHistoryString;
+export default GoogleClassroomHistoryForString;
