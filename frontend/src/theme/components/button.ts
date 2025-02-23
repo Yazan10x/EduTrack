@@ -19,10 +19,10 @@ const Button = {
     },
     variants: {
         primary: {
-            bg: "secondary.600",
+            bg: "secondary.500",
             color: "neutral.50",
             _hover: {
-                bg: "primary.700",
+                bg: "primary.600",
             },
         },
         secondary: {
