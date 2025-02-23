@@ -110,3 +110,43 @@ def get_gclass_url(_ctx: Ctx, course_id: str):
 
     except Exception as e:
         return jsonify({"error": "Unable to get Google Classroom URL", "message": str(e)}), 500
+
+
+@courses.route("/student/<student_id>", methods=["GET"])
+@Ctx.ctx_required([])
+def get_student(_ctx: Ctx, student_id: str):
+    """
+    Get details of a student using GoogleClassroomFunctions.get_student_id.
+    """
+    try:
+        student_response = GoogleClassroomFunctions.get_student_by_id(student_id)
+
+        # If the response is already a dictionary, return it directly
+        if isinstance(student_response, dict):
+            return jsonify(student_response), 200
+
+        # Otherwise, assume it's a requests.Response object and get its JSON
+        return jsonify(student_response.json()), 200
+
+    except Exception as e:
+        return jsonify({"error": "Unable to get student", "message": str(e)}), 500
+
+
+@courses.route("/teacher/<teacher_id>", methods=["GET"])
+@Ctx.ctx_required([])
+def get_teacher(_ctx: Ctx, teacher_id: str):
+    """
+    Get details of a student using GoogleClassroomFunctions.get_student_id.
+    """
+    try:
+        teacher_response = GoogleClassroomFunctions.get_teacher_by_id(teacher_id)
+
+        # If the response is already a dictionary, return it directly
+        if isinstance(teacher_response, dict):
+            return jsonify(teacher_response), 200
+
+        # Otherwise, assume it's a requests.Response object and get its JSON
+        return jsonify(teacher_response.json()), 200
+
+    except Exception as e:
+        return jsonify({"error": "Unable to get teacher", "message": str(e)}), 500
