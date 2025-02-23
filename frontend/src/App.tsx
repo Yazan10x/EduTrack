@@ -84,6 +84,7 @@ export const App = () => (
                         <Route index element={<Dashboard />} />
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="courses" element={<Courses/>} />
+                        <Route path="students" element={<Courses/>} />
 
                         {/* Protected Admin Pages */}
                         <Route path="_admin/*" element={

@@ -12,14 +12,16 @@ import {
     Spacer,
     Image,
     useColorModeValue,
-    Icon
+    Icon,
+    Collapse
 } from '@chakra-ui/react';
-import {FaChalkboard, FaChalkboardTeacher} from 'react-icons/fa';
+import { FaChalkboard, FaChalkboardTeacher, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { CoursesAPI } from "../../APIs/CoursesAPI";
-import {Course as CourseModel} from "../../models/Models";
+import { Course as CourseModel } from "../../models/Models";
+import StudentsGrid from "./StudentsGrid";
 
 interface Teacher {
-    _id: {$oid: string};
+    _id: { $oid: string };
     first_name: string;
     last_name: string;
     email: string;
@@ -31,9 +33,10 @@ interface CourseCardProps {
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
     const [teacherName, setTeacherName] = useState<string>("Loading...");
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const cardBg = useColorModeValue('white', 'gray.800');
-    const headerBg = useColorModeValue('blue.300', 'secondary.500');
+    const headerBg = useColorModeValue('blue.500', 'secondary.500');
     const textColor = useColorModeValue('gray.700', 'gray.200');
     const buttonBg = useColorModeValue('primary.600', 'primary.500');
     const buttonHover = useColorModeValue('primary.700', 'primary.400');
@@ -52,7 +55,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 
     const openGoogleClassroom = async () => {
         if (course) {
-            const url = await CoursesAPI.get_gclass_url(course._id.toString())
+            const url = await CoursesAPI.get_gclass_url(course._id.toString());
             window.open(url, "_blank");
         } else {
             alert("No Google Classroom URL found for this course.");
@@ -64,7 +67,17 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
     return (
         <Card bg={cardBg} boxShadow="lg" borderRadius="lg" overflow="hidden" w="full" p={4}>
             <CardHeader bg={headerBg} color="white" p={4} borderTopRadius="lg">
-                <Heading size="md">{course.name || "Untitled Course"}</Heading>
+                <HStack justify="space-between" w="full">
+                    <Heading size="md">{course.name || "Untitled Course"}</Heading>
+                    <Button
+                        variant="ghost"
+                        color="white"
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        _hover={{ bg: "transparent" }}
+                    >
+                        <Icon as={isExpanded ? FaChevronUp : FaChevronDown} boxSize={5} />
+                    </Button>
+                </HStack>
             </CardHeader>
             <CardBody color={textColor} p={4}>
                 <HStack spacing={3} align="center">
@@ -72,7 +85,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                     <Text fontWeight="semibold">Course Code:</Text>
                     <Text>{course.course_code}</Text>
                     <Spacer />
-                    <Badge variant="subtle" colorScheme="green" px={3} py={1} borderRadius="full">
+                    <Badge variant="subtle" colorScheme="blue" px={3} py={1} borderRadius="full">
                         {studentCount} {studentCount === 1 ? 'Student' : 'Students'}
                     </Badge>
                 </HStack>
@@ -84,7 +97,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             </CardBody>
             <CardFooter justifyContent="flex-end" p={4}>
                 <Button
-                    bg={buttonBg}
+                    bg={"black"}
                     _hover={{ bg: buttonHover }}
                     color="white"
                     onClick={openGoogleClassroom}
@@ -99,6 +112,11 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
                     Google Classroom
                 </Button>
             </CardFooter>
+            <Collapse in={isExpanded} animateOpacity>
+                <CardBody p={4}>
+                    <StudentsGrid courseId={course._id.toString()}/>
+                </CardBody>
+            </Collapse>
         </Card>
     );
 };
