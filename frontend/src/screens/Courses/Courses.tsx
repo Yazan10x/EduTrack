@@ -14,10 +14,10 @@ import { CoursesAPI } from "../../APIs/CoursesAPI";
 
 // Inline CourseCard component to display individual course details
 const CourseCard = ({ course }: { course: any }) => {
-    // Extract teacher ID from the teachers array (if available)
+    // Extract teacher ID safely from the teachers array (if available)
     const teacher =
         Array.isArray(course.teachers) && course.teachers.length > 0
-            ? course.teachers[0].$oid || course.teachers[0]
+            ? course.teachers[0]?.$oid || course.teachers[0]
             : "Unknown";
 
     return (
@@ -44,10 +44,9 @@ export default function Courses() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                // Assume CoursesAPI.get_courses returns the entire response object
+                // Assume CoursesAPI.get_courses returns an array of course objects.
                 const data = await CoursesAPI.get_courses();
-                // Extract the courses array from the response
-                console.log(data)
+                console.log("Fetched courses:", data);
                 setCourses(data);
             } catch (error) {
                 console.error("Error fetching courses:", error);
@@ -80,7 +79,10 @@ export default function Courses() {
             ) : (
                 <Stack spacing={4}>
                     {courses.map((course: any) => (
-                        <CourseCard key={course._id.$oid} course={course} />
+                        <CourseCard
+                            key={course._id?.$oid || course._id || Math.random()}
+                            course={course}
+                        />
                     ))}
                 </Stack>
             )}
