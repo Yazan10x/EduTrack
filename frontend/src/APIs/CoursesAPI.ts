@@ -7,10 +7,11 @@ export namespace CoursesAPI {
     let route_name = "/courses";
 
     // Create a new Google Classroom course
-    export const create_class = async (courseData: { name: string; teacher_email: string }): Promise<Course> => {
+    export const create_class = async (courseData: { name: string; course_code: string; teacher_email: string }): Promise<Course> => {
         try {
             const res = await FLASK_HTTPS.put(`${route_name}/`, {
                 name: courseData.name,
+                course_code: courseData.course_code,
                 teacher_email: courseData.teacher_email
             });
             return new Course(res.data);
@@ -32,7 +33,7 @@ export namespace CoursesAPI {
     // Fetch all courses
     export const get_courses = async (): Promise<Course[]> => {
         try {
-            const res = await FLASK_HTTPS.post(`${route_name}/courses`);
+            const res = await FLASK_HTTPS.get(`${route_name}/list`);
             return res.data.map((courseData: any) => new Course(courseData));
         } catch (error) {
             ErrorHandler.handleAPIError(error, 'Unable to fetch courses');
