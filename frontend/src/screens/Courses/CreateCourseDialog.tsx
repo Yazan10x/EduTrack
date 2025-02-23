@@ -10,7 +10,8 @@ import {
     Button,
     Input,
     FormControl,
-    FormLabel
+    FormLabel,
+    useToast
 } from "@chakra-ui/react";
 import { CoursesAPI } from "../../APIs/CoursesAPI";
 
@@ -24,10 +25,17 @@ export default function CreateCourseDialog({ isOpen, onClose }: CreateCourseDial
     const [courseCode, setCourseCode] = useState("");
     const [teacherEmail, setTeacherEmail] = useState("");
     const [loading, setLoading] = useState(false);
+    const toast = useToast();
 
     const handleCreateCourse = async () => {
         if (!name || !courseCode || !teacherEmail) {
-            alert("Please fill in all fields");
+            toast({
+                title: "Error",
+                description: "Please fill in all fields",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
             return;
         }
 
@@ -38,10 +46,23 @@ export default function CreateCourseDialog({ isOpen, onClose }: CreateCourseDial
                 course_code: courseCode,
                 teacher_email: teacherEmail,
             });
-            alert("Course created successfully!");
+            toast({
+                title: "Success",
+                description: "Course created successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
             onClose();
+            setTimeout(() => window.location.reload(), 1000); // Reload after closing modal
         } catch (error) {
-            alert("Failed to create course");
+            toast({
+                title: "Error",
+                description: "Failed to create course",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
         } finally {
             setLoading(false);
         }
