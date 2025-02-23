@@ -4,3 +4,4 @@ openai==1.61.1
 pymongo~=4.8.0
 python-dotenv~=1.0.1
 bson~=0.5.10
+google.generativeai~=0.8.4
