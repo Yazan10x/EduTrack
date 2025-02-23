@@ -114,44 +114,41 @@ export default function Footer() {
                     <Stack spacing={6}>
                         <Spacer></Spacer>
                         <Box>
-                            {/*<Image*/}
-                            {/*    src="/logo1.png"*/}
-                            {/*    mb={8}*/}
-                            {/*    maxW="100px"*/}
-                            {/*    mx="auto"*/}
-                            {/*/>*/}
+                            <Image
+                                src="/logo1.png"
+                                mb={8}
+                                maxW="100px"
+                                mx="auto"
+                            />
                         </Box>
                         <Text fontSize={'sm'}>© 2025 {WEB_SITE_TITLE}. All rights reserved</Text>
                     </Stack>
                     <Stack align={'flex-start'}>
-                        <ListHeader>Company</ListHeader>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            About us
+                        <ListHeader><Text fontWeight='bold'>Company</Text></ListHeader>
+                        <Box as="a" href={process.env.REACT_APP_LANDING_SITE_ADDRESS} target="_blank" rel="noopener noreferrer">
+                            Home
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Blog
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/features`} target="_blank" rel="noopener noreferrer">
+                            Features
                         </Box>
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/mission`} target="_blank" rel="noopener noreferrer">
+                            About Us
+                        </Box>
+                    </Stack>
+                    <Stack align={'flex-start'}>
+                        <ListHeader><Text fontWeight='bold'>Support</Text></ListHeader>
+                        {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                            Help Center
+                        </Box> */}
                         <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Contact us
                         </Box>
                         <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Pricing
-                        </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Testimonials
-                        </Box>
-                    </Stack>
-                    <Stack align={'flex-start'}>
-                        <ListHeader>Support</ListHeader>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
-                            Help Center
-                        </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Terms of Service
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Legal Policy
-                        </Box>
+                        </Box> */}
                         <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Privacy Policy
                         </Box>
@@ -183,7 +180,7 @@ export default function Footer() {
                             />
                         </Stack>
                         <Stack direction={'row'} spacing={6}>
-                            <SocialButton label={'LinkedIn'} href={'#'}>
+                            <SocialButton label={'LinkedIn'} href={'https://www.linkedin.com/in/anousalma'}>
                                 <FaLinkedin />
                             </SocialButton>
                             <SocialButton label={'X'} href={'#'}>
