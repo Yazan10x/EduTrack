@@ -1,46 +1,101 @@
+import confiq
 import os
-import json
-
-from google.oauth2.service_account import Credentials
-from googleapiclient.discovery import build
-
-# Load API Credentials from environment variables
-google_api_json = {
-    "type": os.getenv("type_gc"),
-    "project_id": os.getenv("project_id_gc"),
-    "private_key_id": os.getenv("private_key_id_gc"),
-    "private_key": os.getenv("private_key_gc").replace("\\n", "\n"),
-    "client_email": os.getenv("client_email_gc"),
-    "client_id": os.getenv("client_id_gc"),
-    "auth_uri": os.getenv("auth_uri_gc"),
-    "token_uri": os.getenv("token_uri_gc"),
-    "auth_provider_x509_cert_url": os.getenv("auth_provider_x509_cert_url_gc"),
-    "client_x509_cert_url": os.getenv("client_x509_cert_url_gc"),
-    "universe_domain": os.getenv("universe_domain_gc"),
-}
+import requests
+from typing import Optional
+from bson import ObjectId
 
 
-class GoogleAPI:
-    _credentials = None
-    _service = None
+class GoogleRootApi(requests.Session):
+    def __init__(self):
+        super().__init__()
+        self.base_url = os.getenv("CLASSROOM_API", "")
+        self.headers.update({
+            "Authorization": f"Bearer {os.getenv('YAZAN_BEARER_TOKEN', "")}",
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        })
+
+    def request(self, method, url, *args, **kwargs):
+        """Override request method to prepend the base URL"""
+        return super().request(method, f"{self.base_url}{url}", *args, **kwargs)
+
+
+class GoogleClassroomFunctions:
+    _api: Optional[GoogleRootApi] = None
 
     @staticmethod
-    def initialize():
-        """Initialize Google API authentication and create a service client."""
-        if GoogleAPI._service is None:
-            creds = Credentials.from_service_account_info(
-                google_api_json,
-                scopes=[
-                    "https://www.googleapis.com/auth/classroom.courses",
-                    "https://www.googleapis.com/auth/classroom.rosters",
-                ],
-            )
-            GoogleAPI._credentials = creds
-            GoogleAPI._service = build("classroom", "v1", credentials=creds)
+    def __load_root_api() -> None:
+        if GoogleClassroomFunctions._api is None:
+            GoogleClassroomFunctions._api = GoogleRootApi()
 
     @staticmethod
-    def get_service():
-        """Return the authenticated Google Classroom API service."""
-        if GoogleAPI._service is None:
-            GoogleAPI.initialize()
-        return GoogleAPI._service
+    def __get_api() -> GoogleRootApi:
+        GoogleClassroomFunctions.__load_root_api()
+        return GoogleClassroomFunctions._api
+
+    @staticmethod
+    def create_course(name: str, course_code: str, teacher: str):
+        payload = {
+            "name": name,
+            "semester_id": "66b51ff7179e3b24f921ec5d",
+            "course_code": course_code,
+            "teachers": [teacher],
+            "gclass_create": True
+        }
+        course = GoogleClassroomFunctions.__get_api().post(url="/courses/create", json=payload)
+        return course.json()
+
+    @staticmethod
+    def get_course(course_id: str):
+        course = GoogleClassroomFunctions.__get_api().get(url=f"/courses/get/{course_id}")
+        return course.json()
+
+    @staticmethod
+    def get_courses():
+        courses = GoogleClassroomFunctions.__get_api().post(url="/courses/courses_list", json={"per_page": 15, "page": 1, "archived": False, "hide_homeroom_courses": True})
+        return courses.json()
+
+    @staticmethod
+    def get_course_google_classroom_student_data(course_id: ObjectId):
+        pass
+
+    @staticmethod
+    def get_student_google_classroom_data(email: str):
+        pass
+
+    @staticmethod
+    def get_user_id(_id: str):
+        user = GoogleClassroomFunctions.__get_api().get(f"/teachers/{_id}")
+        return user.json()
+
+    @staticmethod
+    def get_student_google_classroom_data_for_course(email: str, course: ObjectId):
+        pass
+
+    @staticmethod
+    def get_gclass_url(course_id: str):
+        response = GoogleClassroomFunctions.__get_api().get(url=f"/courses/get_gclass_url/{course_id}")
+        return response.text
+
+
+
+if __name__ == "__main__":
+    pass
+    # u = GoogleClassroomFunctions.get_user_id("63740d6ab87a3421810f2415")
+    # print(u.json())
+    #
+    # print("\n=\n")
+    #
+    # c_lst = GoogleClassroomFunctions.get_courses()
+    # print(c_lst.json())
+    #
+    # print("\n=\n")
+    #
+    # c = GoogleClassroomFunctions.get_course("638e2986c8cf54eb2621160f")
+    # print(c.text)
+    # print(c)
+    # c = GoogleClassroomFunctions.get_gclass_url("638e2986c8cf54eb2621160f")
+    # print(c)
+    # n = GoogleClassroomFunctions.create_course("Intro to Computer Science", "CSC148", "63740d6ab87a3421810f2415")
+    # print(n)
+
