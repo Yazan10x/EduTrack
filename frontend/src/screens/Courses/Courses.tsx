@@ -1,88 +1,15 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import React, {useEffect, useState} from "react";
 import {
     Flex,
     Heading,
-    Button,
     Spinner,
     Stack,
-    Box,
-    Text,
     useDisclosure,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalCloseButton,
-    ModalBody,
-    Link,
 } from "@chakra-ui/react";
 import { CoursesAPI } from "../../APIs/CoursesAPI";
-import Course from "./Course";
 import CreateCourseDialog from "./CreateCourseDialog";
-import {Course as CourseModel, getTeacherEmail} from "../../models/Models";
-
-const CourseCard = ({ course }: { course: CourseModel }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure(); // For course details modal
-
-    const courseId = course._id?.toHexString() || course._id || null;
-    const teacher = getTeacherEmail(course.teacher_id);
-
-    const [gclassUrl, setGclassUrl] = useState<string | null>(null);
-    const [loadingGclass, setLoadingGclass] = useState<boolean>(false);
-
-    const fetchGclassUrl = async () => {
-        if (!courseId) return;
-        setLoadingGclass(true);
-        try {
-            const url = await CoursesAPI.get_gclass_url(courseId.toString());
-            setGclassUrl(url);
-            window.open(url, "_blank"); // Open Google Classroom URL in a new tab
-        } catch (error) {
-            console.error("Error fetching Google Classroom URL:", error);
-        } finally {
-            setLoadingGclass(false);
-        }
-    };
-
-    return (
-        <Box borderWidth="1px" borderRadius="md" p={4} bg="white" shadow="sm">
-            <Heading as="h3" size="md" mb={2}>
-                {course.name || "Unnamed Course"}
-            </Heading>
-            <Text mb={1}>Course Code: {course.course_code || "N/A"}</Text>
-            <Text mb={1}>Teacher: {teacher}</Text>
-            {courseId && (
-                <Flex mt={3}>
-                    <Button size="sm" colorScheme="blue" mr={2} onClick={onOpen}>
-                        Expand
-                    </Button>
-                    <Button
-                        size="sm"
-                        colorScheme="green"
-                        onClick={fetchGclassUrl}
-                        isLoading={loadingGclass}
-                        rightIcon={<ExternalLinkIcon />}
-                    >
-                        Google Classroom
-                    </Button>
-                </Flex>
-            )}
-
-            {/* Course Details Modal */}
-            <Modal isOpen={isOpen} onClose={onClose} size="xl">
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Course Details</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <Course courseId={courseId!.toString()} />
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
-        </Box>
-    );
-};
+import CourseCard from "./CourseCard";
+import Button from "../../ui/button/Button";
 
 export default function Courses() {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -111,8 +38,8 @@ export default function Courses() {
                 <Heading as="h1" size="lg">
                     Courses
                 </Heading>
-                <Button colorScheme="blue" onClick={onOpen}>
-                    + Create Class
+                <Button colorScheme="primary" onClick={onOpen} withRightArrow>
+                    Create Class
                 </Button>
             </Flex>
 

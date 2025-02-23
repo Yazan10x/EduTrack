@@ -49,4 +49,36 @@ export namespace CoursesAPI {
         const res = await FLASK_HTTPS.get(`${route_name}/gclass_url/${courseId}`);
         return res.data as string
     };
+
+    export const get_student = async (studentId: string): Promise<any> => {
+        try {
+            const res = await FLASK_HTTPS.get(`${route_name}/student/${studentId}`);
+
+            if (res.data) {
+                return res.data; // Return student data
+            } else {
+                console.error("DEBUG: Expected student data but got:", res.data);
+                return null;
+            }
+        } catch (error) {
+            ErrorHandler.handleAPIError(error, 'Unable to fetch student details');
+            return null; // Return null on error
+        }
+    };
+
+    export const get_teacher = async (teacherId: string): Promise<any> => {
+        try {
+            const res = await FLASK_HTTPS.get(`${route_name}/teacher/${teacherId}`);
+
+            if (res.data) {
+                return res.data;
+            } else {
+                console.error("DEBUG: Expected teacher data but got:", res.data);
+                return null;
+            }
+        } catch (error) {
+            ErrorHandler.handleAPIError(error, 'Unable to fetch teacher details');
+            return null; // Return null on error
+        }
+    };
 }
