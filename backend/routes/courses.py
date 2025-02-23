@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, request, jsonify
 from mongoengine import ValidationError
-from models import Course  # Assuming your Course model is in models.py
+# from models import Course
 from utils.context import Ctx
 from utils.googleapis.ClassroomAPI import GoogleClassroomFunctions
 
@@ -34,18 +34,18 @@ def create_class(_ctx: Ctx):
             return jsonify({"error": "Failed to create course in Google Classroom"}), 500
 
         # Store minimal data in MongoDB
-        new_course = Course(
-            google_classroom_id=google_classroom_id
-        )
-        new_course.save()
+        # new_course = Course(
+        #     google_classroom_id=google_classroom_id
+        # )
+        # new_course.save()
 
         return jsonify({
-            "id": str(new_course.id),
+            "id": str(course_response.id),
             "google_classroom_id": google_classroom_id,
             "name": name,
             "course_code": course_code,
             "teacher_email": teacher_email,
-            "created_at": new_course.created_at.isoformat()
+            "created_at": course_response.created_at.isoformat()
         }), 201
 
     except ValidationError as ve:
@@ -76,8 +76,35 @@ def list_classes(_ctx: Ctx):
     Get a list of courses using GoogleClassroomFunctions.get_courses.
     """
     try:
-        courses_response = GoogleClassroomFunctions.get_courses()
-        # Assume the response is a requests.Response object
-        return jsonify(courses_response.json()), 200
+        print("DEBUG: Starting list_classes endpoint")
+
+        # Retrieve the raw response from get_courses
+        response = GoogleClassroomFunctions.get_courses()
+        print("DEBUG: Raw response from get_courses:", response)
+
+        # Safely extract courses using .get() to avoid KeyError
+        courses_response = response.get("courses", [])
+        print("DEBUG: Parsed courses list:", courses_response)
+
+        res_lst = []
+        for course in courses_response:
+            print("DEBUG: Processing course:", course)
+
+            # Extract course ID correctly from '_id' -> '$oid'
+            course_id = course.get("_id", {}).get("$oid")
+            if not course_id:
+                print("DEBUG: Course missing valid '_id', skipping:", course)
+                continue
+
+            print(f"DEBUG: Fetching details for course id: {course_id}")
+            course_details = GoogleClassroomFunctions.get_course(course_id)
+            print("DEBUG: Fetched course details:", course_details)
+
+            res_lst.append(course_details)
+
+        print("DEBUG: Final detailed courses list:", res_lst)
+        return jsonify(res_lst), 200
+
     except Exception as e:
+        print("DEBUG: Exception occurred in list_classes:", e)
         return jsonify({"error": "Unable to list courses", "message": str(e)}), 500
