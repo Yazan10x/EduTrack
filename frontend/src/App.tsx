@@ -11,6 +11,7 @@ import ProfileScreen from "./screens/User/ProfileScreen";
 import AuthScreen from "./screens/Auth/AuthScreen";
 import AdminPortal from "./screens/Admin/AdminPortal";
 import Courses from "./screens/Courses/Courses";
+import StudentReport from "./screens/Courses/StudentReport";
 
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
@@ -84,7 +85,7 @@ export const App = () => (
                         <Route index element={<Dashboard />} />
                         <Route path="dashboard" element={<Dashboard />} />
                         <Route path="courses" element={<Courses/>} />
-                        <Route path="students" element={<Courses/>} />
+                        <Route path="student_report/:studentId" element={<StudentReport/>} />
 
                         {/* Protected Admin Pages */}
                         <Route path="_admin/*" element={
