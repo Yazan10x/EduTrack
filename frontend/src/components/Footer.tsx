@@ -152,13 +152,13 @@ export default function Footer() {
                         <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/contact`} target="_blank" rel="noopener noreferrer">
                             Contact us
                         </Box>
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        <Box as="a" href={`https://policies.google.com/terms?hl=en-US`} target="_blank" rel="noopener noreferrer">
                             Terms of Service
                         </Box>
                         {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Legal Policy
                         </Box> */}
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        <Box as="a" href={`https://policies.google.com/privacy?hl=en-US`} target="_blank" rel="noopener noreferrer">
                             Privacy Policy
                         </Box>
                         {/*<Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/status`} target="_blank" rel="noopener noreferrer">*/}
