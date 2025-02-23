@@ -30,13 +30,22 @@ export namespace CoursesAPI {
         }
     };
 
-    // Fetch all courses
     export const get_courses = async (): Promise<Course[]> => {
         try {
             const res = await FLASK_HTTPS.get(`${route_name}/list`);
-            return res.data.map((courseData: any) => new Course(courseData));
+            console.log("DEBUG: Raw API response:", res.data);
+
+            if (Array.isArray(res.data)) {
+                const courses = res.data.map((courseData: any) => new Course(courseData));
+                console.log("DEBUG: Mapped courses:", courses);
+                return courses;
+            } else {
+                console.error("DEBUG: Expected an array from API but got:", res.data);
+                return [];
+            }
         } catch (error) {
             ErrorHandler.handleAPIError(error, 'Unable to fetch courses');
+            return []; // Return an empty array on error.
         }
     };
 }
