@@ -149,7 +149,7 @@ export default function Footer() {
                         {/* <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
                             Help Center
                         </Box> */}
-                        <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
+                        <Box as="a" href={`${process.env.REACT_APP_LANDING_SITE_ADDRESS}/contact`} target="_blank" rel="noopener noreferrer">
                             Contact us
                         </Box>
                         <Box as="a" href={`#`} target="_blank" rel="noopener noreferrer">
