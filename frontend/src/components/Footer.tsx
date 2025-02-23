@@ -12,7 +12,7 @@ import {
     Image, useToast, Spacer,
 } from '@chakra-ui/react'
 import React, {ReactNode, useState} from 'react'
-import { FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaGithub, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { BiMailSend } from 'react-icons/bi'
 import {RiMailSendFill, SiTiktok, SiTwitter} from "react-icons/all";
 import {useNavigate} from "react-router-dom";
@@ -192,11 +192,11 @@ export default function Footer() {
                             <SocialButton label={'LinkedIn'} href={'https://www.linkedin.com/in/anousalma'}>
                                 <FaLinkedin />
                             </SocialButton>
-                            <SocialButton label={'X'} href={'#'}>
-                                <SiTwitter />
+                            <SocialButton label={'Github'} href={'https://github.com/Yazan10x/EduTrack'}>
+                                <FaGithub />
                             </SocialButton>
-                            <SocialButton label={'Instagram'} href={'#'}>
-                                <FaInstagram />
+                            <SocialButton label={'Twitter'} href={'https://x.com/yazanarmoush'}>
+                                <FaTwitter />
                             </SocialButton>
                         </Stack>
                     </Stack>
