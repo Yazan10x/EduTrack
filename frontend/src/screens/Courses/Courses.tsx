@@ -38,7 +38,7 @@ export default function Courses() {
                 <Heading as="h1" size="lg">
                     Courses
                 </Heading>
-                <Button colorScheme="primary" onClick={onOpen} withRightArrow>
+                <Button bg="black" onClick={onOpen} withRightArrow>
                     Create Class
                 </Button>
             </Flex>
