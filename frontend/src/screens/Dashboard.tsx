@@ -1,29 +1,33 @@
-    import React, {useEffect, useRef, useState} from 'react';
-    import {
-    Box,
-    Heading,
-    useColorModeValue,
-    GridItem, Center, Spacer
-    } from '@chakra-ui/react';
-    import { Chart, registerables } from 'chart.js';
-    import {useAuth} from "../utils/firebase/authContext";
-    import {formatDistanceToNow, isPast} from "date-fns";
+import React from 'react';
+import {
+Box,
+useColorModeValue,
+Stack
+} from '@chakra-ui/react';
+import { Chart, registerables } from 'chart.js';
+import MainGrid from '../components/MainGrid';
 
-    Chart.register(...registerables);
+Chart.register(...registerables);
 
-    
-    const Dashboard: React.FC = () => {
-        const user = useAuth().user;
-        const [time_left, set_time_left] = useState<string | undefined>(undefined);
 
-        return (
-            <Box p={[4, 6, 8]}>
-                <Heading as="h1" size="xl" mb={6}>Welcome {user?.full_name} </Heading>
-                {/*<Heading as="h1" size="xl" textAlign="center" mb={2}>Dashboard Overview</Heading>*/}
+const Dashboard: React.FC = () => {
+    const bgColor = useColorModeValue("white", "gray.900");
 
-                <Spacer h={"25px"}/>
-            </Box>
-        );
-    };
+    return (
+        <Box display="flex">
+        <Box
+            as="main"
+            flexGrow={1}
+            bg={bgColor}
+            overflow="auto"
+            p={4}
+        >
+            <Stack spacing={4} align="center" mx={3} pb={5} mt={{ base: 8, md: 0 }}>
+            <MainGrid />
+            </Stack>
+        </Box>
+        </Box>
+    );
+};
 
-    export default Dashboard;
+export default Dashboard;
