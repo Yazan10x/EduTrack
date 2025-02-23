@@ -78,7 +78,16 @@ export default function Footer() {
             });
             return;
         }
-
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            toast({
+                title: "Invalid email format.",
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         setIsSubmitting(true);
         try {
             const message = await UsersAPI.subscribe_to_newsletter(email);
