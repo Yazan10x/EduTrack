@@ -36,17 +36,17 @@ const data: StatCardProps[] = [
     },
     {
       title: "Number of Teachers",
-      value: "12",
+      value: "1",
       interval: "Across All Classes",
     },
     {
       title: "Number of Students",
-      value: "240",
+      value: "2",
       interval: "Across All Classes",
     },
     {
       title: "Number of Classes",
-      value: "8",
+      value: "2",
       interval: "Active This Semester",
     },
   ];

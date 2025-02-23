@@ -12,6 +12,7 @@ import {
     Badge,
     useColorModeValue, Spacer,
 } from "@chakra-ui/react";
+import {useNavigate} from "react-router-dom";
 
 interface Student {
     _id: { $oid: string };
@@ -21,6 +22,9 @@ interface Student {
 }
 
 const StudentCard: React.FC<{ student: Student }> = ({ student }) => {
+
+    let navigate = useNavigate()
+
     return (
         <Box
             maxW={"320px"}
@@ -74,6 +78,7 @@ const StudentCard: React.FC<{ student: Student }> = ({ student }) => {
                 <Button
                     flex={1}
                     bg={"blue.400"}
+                    onClick={()=>{navigate(`/student_report/${student._id.$oid}`)}}
                     fontSize={"sm"}
                     rounded={"full"}
                     _focus={{
