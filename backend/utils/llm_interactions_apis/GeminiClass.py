@@ -15,7 +15,7 @@ class GeminiClass:
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
     @staticmethod
-    def analyze_student_data(json_data):
+    def analyze_student_data(data: str):
         """
         Analyzes student data provided in JSON format using Gemini API
         and returns future development plans and learning improvement strategies.
@@ -31,11 +31,11 @@ class GeminiClass:
         genai.configure(api_key=GeminiClass.GOOGLE_API_KEY)
         model = genai.GenerativeModel('gemini-pro')
 
-        prompt = """Okay Gemini, analyze student data I will provide in JSON format (e.g., {"name": "...", "grades": {...}, ...}).
+        prompt = """Okay Gemini, analyze student data I will provide the data (could be in any format).
         Based on this data, suggest future development plans focusing on academic growth and skill enhancement.
         Recommend actionable strategies to improve their learning effectiveness. Respond concisely, within 100 words as a paragraph.
         Here is the student data in JSON format:
-        """ + json.dumps(json_data, indent=2) # Add the JSON data to the prompt, nicely formatted
+        """ + data
 
         try:
             response = model.generate_content(prompt)
