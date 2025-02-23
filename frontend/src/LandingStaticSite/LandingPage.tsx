@@ -1,162 +1,189 @@
-import React from 'react';
+import React from "react";
 import {
-    Box,
-    Flex,
-    Heading,
-    Text,
-    SimpleGrid,
-    useColorModeValue,
-    Container,
-    Icon, Stack, Spacer,
-} from '@chakra-ui/react';
-import Button from '../ui/button/Button';
-import { CheckCircleIcon } from '@chakra-ui/icons';
-import { FaBook, FaChalkboardTeacher, FaUserGraduate, FaLightbulb, FaAward, FaLaptopCode } from 'react-icons/fa';
+  Box,
+  Container,
+  Flex,
+  Heading,
+  Text,
+  SimpleGrid,
+  useColorModeValue,
+  Icon,
+  Stack,
+  VStack,
+  Button,
+  Fade,
+  Image,
+} from "@chakra-ui/react";
+import { FaBook, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import { WEB_SITE_TITLE } from "../components/SidebarWithHeader";
-
-// Example card style with hover effect
-const cardStyle = {
-    p: 6,
-    bg: 'gray.50',
-    rounded: 'lg',
-    shadow: 'md',
-    transition: 'transform 0.3s ease',
-    _hover: {
-        transform: 'translateY(-5px)',
-        shadow: 'lg',
-    },
-}
+import { useNavigate } from "react-router-dom";
 
 export const LandingPage: React.FC = () => {
-    // A simple card style for repeated use
-    const cardStyle = {
-        p: 6,
-        textAlign: 'center' as const,
-        bg: useColorModeValue('white', 'gray.800'),
-        borderRadius: 'lg',
-        boxShadow: 'lg',
-        transition: 'all 0.3s ease',
-        _hover: {
-            transform: 'translateY(-6px)',
-            boxShadow: 'xl',
-        },
-    };
+  const navigate = useNavigate();
 
-    // Hero illustration (keeping the same image, but the layout changes)
-    const heroImage = useColorModeValue(
-        "url('/logo1.png')",
-        "url('/logo1.png')"
-    );
+  const cardBg = useColorModeValue("white", "gray.800");
+  const textColor = useColorModeValue("gray.600", "gray.300");
+  const headingColor = useColorModeValue("gray.800", "white");
+  const accentColor = useColorModeValue("secondary.500", "secondary.400");
 
-    return (
-        <Box bg={'white.50'} color="text">
-            {/*
-        Hero Section
-        - Uses a wave-style top layer plus reversed layout (image left, text right).
-      */}
-            <Box h="300px" position="relative" overflow="hidden">
-                {/* Wave Background */}
+  const features = [
+    {
+      icon: FaBook,
+      title: "Assignment Tracking",
+      description:
+        "Keep track of submissions, deadlines, and student progress with our intuitive dashboard.",
+    },
+    {
+      icon: FaUserGraduate,
+      title: "Student Insights",
+      description:
+        "Gain valuable insights into each student's learning journey and adapt your teaching approach.",
+    },
+    {
+      icon: FaChalkboardTeacher,
+      title: "Classroom Management",
+      description:
+        "Seamlessly manage multiple classrooms and keep everything organized in one place.",
+    },
+  ];
+
+  return (
+    <Box bg={useColorModeValue("gray.50", "gray.900")}>
+      {/* Hero Section */}
+      <Container maxW="7xl" pt={{ base: 20, md: 28 }} pb={{ base: 16, md: 24 }}>
+        <SimpleGrid
+          columns={{ base: 1, md: 2 }}
+          spacing={{ base: 10, md: 16 }}
+          alignItems="center"
+        >
+          <VStack spacing={6} align={{ base: "center", md: "start" }} flex={1}>
+            <Heading
+              as="h1"
+              size="2xl"
+              lineHeight="shorter"
+              color={headingColor}
+              letterSpacing="tight"
+            >
+              Welcome to{" "}
+              <Text as="span" color={accentColor}>
+                {WEB_SITE_TITLE}
+              </Text>
+            </Heading>
+            <Text fontSize="xl" color={textColor} lineHeight="tall">
+              Simplify your teaching journey. Focus on what truly matters -
+              inspiring your students.
+            </Text>
+            <Button
+              size="lg"
+              colorScheme="secondary"
+              px={8}
+              fontSize="md"
+              height="14"
+              onClick={() => window.open(process.env.REACT_APP_DASHBOARD_SITE_ADDRESS, '_blank')}
+              _hover={{
+                transform: "translateY(-2px)",
+                boxShadow: "lg",
+              }}
+            >
+              Get Started
+            </Button>
+          </VStack>
+
+          <Box flex={1} display="flex" justifyContent="center">
+            <Image
+              src="/dashboard.png"
+              width="600px"
+              height="400px"
+              maxWidth="100%"
+              borderRadius="2xl"
+              position="relative"
+              objectFit="contain"
+              transition={"all 0.3s"}
+              _hover = {{
+                transform: "translateY(-6px)",
+                boxShadow: "lg",
+                scale: 1.05,
+              }}
+            />
+          </Box>
+        </SimpleGrid>
+      </Container>
+
+      {/* Features Section */}
+      <Box
+        py={{ base: 16, md: 24 }}
+        bg={useColorModeValue("white", "gray.800")}
+      >
+        <Container maxW="7xl">
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
+            {features.map((feature, index) => (
+              <Fade in={true} delay={index * 0.2}>
                 <Box
-    position="absolute"
-    top="0"
-    left="0"
-    right="0"
-    h="100px"
-    bg={useColorModeValue('secondary.200', 'secondary.700')}
-    zIndex={-1}
-    clipPath="polygon(100% 0, 0 0, 0 75%, 100% 100%)"
-/>
-                <Spacer h={"15px"}/>
+                  key={feature.title}
+                  p={8}
+                  bg={cardBg}
+                  borderRadius="xl"
+                  boxShadow="sm"
+                  transition="all 0.3s"
+                  _hover={{
+                    transform: "translateY(-4px)",
+                    boxShadow: "md",
+                  }}
+                >
+                  <Icon
+                    as={feature.icon}
+                    w={8}
+                    h={8}
+                    color={accentColor}
+                    mb={4}
+                  />
+                  <Heading size="md" mb={4} color={headingColor}>
+                    {feature.title}
+                  </Heading>
+                  <Text color={textColor}>{feature.description}</Text>
+                </Box>
+              </Fade>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
 
-                <Container maxW="7xl" py={{ base: 12, md: 20 }} px={8}>
-                    <Flex
-                        direction={{ base: 'column', md: 'row-reverse' }}
-                        align="center"
-                        justify="space-between"
-                        gap={8}
-                    >
-                        {/* Text Column */}
-                        <Box flex="1" textAlign={{ base: 'center', md: 'left' }}>
-                            <Heading size="2xl" mb={4}>
-                                Welcome to <Heading as="span" size="2xl" mb={4} color={useColorModeValue('secondary.500', 'secondary.700')}>{WEB_SITE_TITLE}</Heading>,
-                                <br/> Your Classroom Management Simplified
-                            </Heading>
-                            <Text fontSize="xl" mb={6}>
-                            Teaching is one of the most important jobs in the world, but it's also one of the hardest. 
-                            <br/>EduTrack is here to lighten your load, so you can focus on what truly matters.
-                            </Text>
-                        </Box>
-                    </Flex>
-                </Container>
-            </Box>
-
-            <Box
-                as="section"
-                // Subtle gradient for the section background
-                bgGradient={useColorModeValue(
-                    'linear(to-r, white, gray.50)',
-                    'linear(to-r, gray.800, gray.900)'
-                )}
-                py={12}
+      {/* Call to Action Section */}
+      <Box py={{ base: 16, md: 20 }}>
+        <Container maxW="4xl">
+          <Box
+            bg={useColorModeValue("secondary.50", "secondary.900")}
+            p={{ base: 8, md: 12 }}
+            borderRadius="2xl"
+            textAlign="center"
+            position="relative"
+            overflow="hidden"
+          >
+            <VStack spacing={6}>
+              <Heading size="xl" color={headingColor} letterSpacing="tight">
+                Ready to Transform Your Classroom?
+              </Heading>
+              <Text fontSize="lg" color={textColor} maxW="2xl">
+                Join thousands of educators who are revolutionizing their
+                teaching experience with {WEB_SITE_TITLE}.
+              </Text>
+              <Button
+                size="lg"
+                colorScheme="secondary"
                 px={8}
-            >
-                <Container maxW="6xl">
-                    <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-                        {/* Card 1 */}
-                        <Box {...cardStyle}>
-                            <Stack direction="row" align="center" mb={4}>
-                                <Icon as={FaBook} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Never Miss a Beat with Assignments.</Heading>
-                            </Stack>
-                            <Text>
-                            EduTrack gives you a clear, organized view of what's been submitted, what's late, and what needs your attention.
-                            </Text>
-                        </Box>
-
-                        {/* Card 2 */}
-                        <Box {...cardStyle}>
-                            <Stack direction="row" align="center" mb={4}>
-                                <Icon as={FaUserGraduate} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Understand Your Students Better</Heading>
-                            </Stack>
-                            <Text>
-                                Get personalized insights into each student's learning style and progress, helping you tailor your teaching to their needs.
-                            </Text>
-                        </Box>
-
-                        {/* Card 3 */}
-                        <Box {...cardStyle}>
-                            <Stack direction="row" align="center" mb={4}>
-                                <Icon as={FaChalkboardTeacher} w={6} h={6} color="secondary.700" />
-                                <Heading size="md">Simplify Your Classroom Management</Heading>
-                            </Stack>
-                            <Text>
-                                Manage Google Classrooms, track performance, and access everything in one place, saving you time and stress.
-                            </Text>
-                        </Box>
-                    </SimpleGrid>
-                </Container>
-            </Box>
-
-            {/* Innovation & Certification Section */}
-            <Box
-                mx="auto"
-                maxW="70%"
-                borderRadius="20"
-                bgGradient="linear(to-r, secondary.50, secondary.100)"
-                py={12}
-                px={8}
-            >
-                <Container maxW="md" textAlign="center">
-                    <Stack direction="row" align="center" justify="center" mb={4}>
-                        <Icon as={FaAward} w={8} h={8} color="secondary.700" />
-                        <Heading size="lg">Ready to Transform Your Classroom?</Heading>
-                    </Stack>
-                    <Text fontSize="lg">
-                        Join thousands of teachers who are saving time, reducing stress, and helping their students thrive with EduTrack. Start your free trial today and see the difference for yourself!
-                    </Text>
-                </Container>
-            </Box>
-        </Box>
-    );
+                fontSize="md"
+                onClick={() => window.open(process.env.REACT_APP_DASHBOARD_SITE_ADDRESS, '_blank')}
+                _hover={{
+                  transform: "translateY(-2px)",
+                  boxShadow: "lg",
+                }}
+              >
+                Start Your Journey
+              </Button>
+            </VStack>
+          </Box>
+        </Container>
+      </Box>
+    </Box>
+  );
 };

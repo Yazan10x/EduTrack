@@ -141,8 +141,8 @@ const DesktopNav = () => {
     return (
         <Stack 
             direction={'row'} 
-            spacing={8} // Increased spacing between nav items
-            align="center" // Ensure vertical alignment
+            spacing={8} 
+            align="center" 
         >
             {NAV_ITEMS.map((navItem) => (
                 <Box key={navItem.label}>
@@ -150,11 +150,11 @@ const DesktopNav = () => {
                         <PopoverTrigger>
                             <Box
                                 as="a"
-                                p={4} // Increased padding
+                                p={4} 
                                 href={navItem.href ?? '#'}
-                                fontSize="lg" // Increased font size
-                                fontWeight={600} // Made font slightly bolder
-                                letterSpacing="wide" // Added letter spacing for better readability
+                                fontSize="lg" 
+                                fontWeight={600} 
+                                letterSpacing="wide" 
                                 color={colors.link}
                                 position="relative"
                                 borderRadius="md"
