@@ -38,20 +38,34 @@ export class User {
 
 export class Course {
     _id: ObjectId;
-    google_classroom_id: string;
-
-    constructor(data: any) {
-        this._id = new ObjectId(data._id.$oid);
-        this.google_classroom_id = data.google_classroom_id;
-    }
-}
-
-export class GoogleClassroom {
-    google_classroom_id: string;
+    archived: boolean;
     name: string;
+    course_code: string;
+    homeroom: any;
+    teachers: any[];
 
     constructor(data: any) {
-        this.google_classroom_id = data.google_classroom_id;
+        // Accept either _id or id property.
+        // If the id object has a $oid field, use that; otherwise, use the value directly.
+        const idData = data._id || data.id;
+        this._id = new ObjectId(idData?.$oid || idData);
+
+        // Map the remaining fields.
+        this.archived = data.archived;
         this.name = data.name;
+        // Prefer courseCode (camelCase) from the API, falling back to course_code.
+        this.course_code = data.courseCode || data.course_code;
+        this.homeroom = data.homeroom;
+        this.teachers = data.teachers;
     }
 }
+
+// export class GoogleClassroom {
+//     google_classroom_id: string;
+//     name: string;
+//
+//     constructor(data: any) {
+//         this.google_classroom_id = data.google_classroom_id;
+//         this.name = data.name;
+//     }
+// }
