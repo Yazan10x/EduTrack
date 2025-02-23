@@ -12,7 +12,7 @@ import {
     FormControl,
     FormLabel
 } from "@chakra-ui/react";
-import {CoursesAPI} from "../../APIs/CoursesAPI";
+import { CoursesAPI } from "../../APIs/CoursesAPI";
 
 interface CreateCourseDialogProps {
     isOpen: boolean;
@@ -21,11 +21,12 @@ interface CreateCourseDialogProps {
 
 export default function CreateCourseDialog({ isOpen, onClose }: CreateCourseDialogProps) {
     const [name, setName] = useState("");
+    const [courseCode, setCourseCode] = useState("");
     const [teacherEmail, setTeacherEmail] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleCreateCourse = async () => {
-        if (!name || !teacherEmail) {
+        if (!name || !courseCode || !teacherEmail) {
             alert("Please fill in all fields");
             return;
         }
@@ -34,6 +35,7 @@ export default function CreateCourseDialog({ isOpen, onClose }: CreateCourseDial
         try {
             await CoursesAPI.create_class({
                 name,
+                course_code: courseCode,
                 teacher_email: teacherEmail,
             });
             alert("Course created successfully!");
@@ -58,6 +60,16 @@ export default function CreateCourseDialog({ isOpen, onClose }: CreateCourseDial
                             placeholder="Enter course name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            disabled={loading}
+                        />
+                    </FormControl>
+
+                    <FormControl mb={4}>
+                        <FormLabel>Course Code</FormLabel>
+                        <Input
+                            placeholder="Enter course code"
+                            value={courseCode}
+                            onChange={(e) => setCourseCode(e.target.value)}
                             disabled={loading}
                         />
                     </FormControl>
