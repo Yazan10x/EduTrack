@@ -43,20 +43,20 @@ export class Course {
     course_code: string;
     homeroom: any;
     teacher_id: string;
+    student_ids: string[];
 
     constructor(data: any) {
         // Accept either _id or id property.
-        // If the id object has a $oid field, use that; otherwise, use the value directly.
         const idData = data._id || data.id;
         this._id = new ObjectId(idData?.$oid || idData);
 
         // Map the remaining fields.
         this.archived = data.archived;
         this.name = data.name;
-        // Prefer courseCode (camelCase) from the API, falling back to course_code.
         this.course_code = data.courseCode || data.course_code;
         this.homeroom = data.homeroom;
-        this.teacher_id = data.teacherIds[0].id || "";
+        this.teacher_id = data.teacherIds?.[0]?.id || "";
+        this.student_ids = (data.studentIds || []).map((s: { id: string }) => s.id);
     }
 }
 
